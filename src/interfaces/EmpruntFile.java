@@ -1,4 +1,6 @@
 package interfaces;
 
-public class EmpruntFile {
+public interface EmpruntFile {
+    public void readEmpruntFile();
+    public void writeEmpruntFile();
 }

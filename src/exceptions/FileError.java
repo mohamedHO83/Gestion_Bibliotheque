@@ -1,7 +1,9 @@
 package exceptions;
 
-public class FileError extends RuntimeException {
-  public FileError(String message) {
-    super(message);
-  }
+import java.io.IOException;
+
+public class FileError extends IOException {
+    public FileError(String message) {
+        super(message);
+    }
 }
