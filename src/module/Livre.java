@@ -1,31 +1,34 @@
 package module;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Livre {
-    private int isbn;
+public class Livre implements Serializable {
+    private int idBook;
     private String titre;
     private String auteur;
     private int anneepub;
     private String genre;
+    private int nbCopies;
     private static int cpt=1;
-    public Livre() { this.isbn=cpt++;}
+
+    public Livre() { this.idBook =cpt++;}
 
     public Livre(String titre,String auteur, int anneepub,String genre){
-        this.isbn=cpt++;
+        this.idBook =cpt++;
         this.titre=titre;
         this.auteur=auteur;
         this.anneepub=anneepub;
         this.genre=genre;
     }
     public int getISBN(){
-        return isbn;
+        return idBook;
     }
 
     @Override
     public String toString() {
         return "Livre{" +
-                "isbn=" + isbn +
+                "isbn=" + idBook +
                 ", titre='" + titre + '\'' +
                 ", auteur='" + auteur + '\'' +
                 ", anneepub=" + anneepub +
@@ -72,6 +75,6 @@ public class Livre {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Livre livre)) return false;
-        return this.isbn==((Livre) o).isbn;
+        return this.idBook ==((Livre) o).idBook;
     }
 }

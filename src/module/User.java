@@ -1,18 +1,40 @@
 package module;
 
 public class User {
-    private int uid;
-    private String lastName;
-    private String firstName;
-    private String role;
-    private static int cpt;
+    protected int uid;
+    protected String lastName;
+    protected String firstName;
+    protected String password;
+    protected int age;
+    protected String adresse;
+    protected static int cpt;
+    //private int cin;
 
     public User() {uid=cpt++; }
-    public User(String lastName,String firstName,int cin,String role) {
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public User(String lastName, String firstName, String password, int age, String adresse) {
         this.uid=cpt++;
         this.lastName=lastName;
         this.firstName=firstName;
-        this.role=role;
+        this.password=password;
+        this.age=age;
+        this.adresse=adresse;
     }
 
     public int getUid() {
@@ -22,6 +44,14 @@ public class User {
 //    public void setUid(int uid) {
 //        this.uid = uid;
 //    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getLastName() {
         return lastName;
@@ -39,22 +69,13 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "{" +
                 "uid=" + uid +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
-                ", role='" + role + '\'' +
                 '}';
     }
-
 }
