@@ -1,6 +1,7 @@
 package module;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Livre implements Serializable {
     private int idBook;
