@@ -2,12 +2,12 @@ package module;
 
 import java.io.Serializable;
 
-public class Admin extends User implements Serializable {
-    public Admin(){
+public class Bibliothecaire extends User implements Serializable {
+    public Bibliothecaire(){
         super();
     }
-    public Admin(String lastName,String firstName,String password){
-        super(lastName,firstName,password);
+    public Bibliothecaire(String lastName, String firstName, String password, int age, String adresse){
+        super(lastName,firstName,password,age,adresse);
     }
 
     @Override

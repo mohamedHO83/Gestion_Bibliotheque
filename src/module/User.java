@@ -5,15 +5,36 @@ public class User {
     protected String lastName;
     protected String firstName;
     protected String password;
+    protected int age;
+    protected String adresse;
     protected static int cpt;
     //private int cin;
 
     public User() {uid=cpt++; }
-    public User(String lastName,String firstName,String password) {
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public User(String lastName, String firstName, String password, int age, String adresse) {
         this.uid=cpt++;
         this.lastName=lastName;
         this.firstName=firstName;
         this.password=password;
+        this.age=age;
+        this.adresse=adresse;
     }
 
     public int getUid() {
