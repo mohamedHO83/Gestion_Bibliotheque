@@ -4,21 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="">
+    <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="3awed jreb">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Livres.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Livres.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Membres.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Membres.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/BiblioView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/EmpruntController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/EmpruntController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/LivreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/LivreController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/MembreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/MembreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/Emprunt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Emprunt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/Livre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Livre.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/Membre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Membre.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/BiblioView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +78,15 @@
       <option name="presentableId" value="Default" />
       <updated>1733385161611</updated>
     </task>
+    <task id="LOCAL-00001" summary="3awed jreb">
+      <option name="closed" value="true" />
+      <created>1735322223765</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1735322223765</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -109,6 +111,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="3awed jreb" />
+    <option name="LAST_COMMIT_MESSAGE" value="3awed jreb" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

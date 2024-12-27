@@ -20,20 +20,23 @@ public class LivreController {
     public static void readLivreFile() {
         try{
             BufferedReader ois=new BufferedReader(new FileReader("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Livres.csv"));
-            Livre l=new Livre();
             String line;
             while((line=ois.readLine())!=null) {
+                Livre l=new Livre();
                 String[] livrefields=line.split(",");
-                if(LIVRE_ID_CPT<Integer.parseInt(livrefields[0])){LIVRE_ID_CPT=Integer.parseInt(livrefields[0])+1;}
-                l.setIdBook(LIVRE_ID_CPT++);
+                if(LIVRE_ID_CPT<Integer.parseInt(livrefields[0])){
+                    LIVRE_ID_CPT=Integer.parseInt(livrefields[0])+1;
+                }
+                l.setIdBook(LIVRE_ID_CPT);
+                LIVRE_ID_CPT++;
                 l.setTitre(livrefields[1]);
                 l.setAuteur(livrefields[2]);
                 l.setAnneepub(Integer.parseInt(livrefields[3]));
                 l.setGenre(livrefields[4]);
                 l.setNbCopies(Integer.parseInt(livrefields[5]));
-                System.out.println(l);
                 livreslist.add(l);
             }
+            System.out.println(livreslist);
             ois.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
