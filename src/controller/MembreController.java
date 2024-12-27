@@ -22,14 +22,15 @@ public class MembreController {
     public static void readMemberFile() {
         try{
             BufferedReader ois=new BufferedReader(new FileReader("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Membres.csv"));
-            Membre m=new Membre();
             String s;
             while((s=ois.readLine())!=null) {
+                Membre m=new Membre();
                 String[] memberField=s.split(",");
                 if(MEMBER_ID_CPT<Integer.parseInt(memberField[0])) {
                     MEMBER_ID_CPT=Integer.parseInt(memberField[0])+1;
                 }
                 m.setUid(MEMBER_ID_CPT);
+                MEMBER_ID_CPT++;
                 m.setLastName(memberField[1]);
                 m.setFirstName(memberField[2]);
                 m.setPassword(memberField[3]);
@@ -37,6 +38,7 @@ public class MembreController {
                 m.setAdresse(memberField[5]);
                 membersList.add(m);
             }
+            System.out.println(membersList);
             ois.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

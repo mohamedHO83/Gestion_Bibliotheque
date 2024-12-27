@@ -26,7 +26,7 @@ public class BiblioView extends JFrame {
     JButton bookAddButton = new JButton("Add");
     JButton bookModifyButton = new JButton("Modify");
     JButton bookDeleteButton = new JButton("Delete");
-    JButton bookEmpruntButton = new JButton("Burrow");
+    JButton bookEmpruntButton = new JButton("Borrow");
     JButton bookSaveButton = new JButton("Save");
     DefaultListModel<String> bookNomModel = new DefaultListModel<>();
     JList<String> bookNomListe = new JList<>();
