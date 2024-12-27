@@ -1,4 +1,6 @@
-package View;
+package view;
+import controller.*;
+import module.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,6 +55,9 @@ public class BiblioView extends JFrame {
 
 
     public BiblioView(){
+        MembreController.readMemberFile();
+        LivreController.readLivreFile();
+        EmpruntController.readEmpruntFile();
         addComponentsUser();
         addComponentsBooks();
         addComponentsEmprunt();
@@ -63,10 +68,29 @@ public class BiblioView extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        bookAddButton.addActionListener(e-> AdminController.ajouterLivre(this));
+        bookModifyButton.addActionListener(e->AdminController.modifierLivre(this,bookNomListe.getSelectedValue(),bookNomListe.getSelectedIndex()));
+        bookDeleteButton.addActionListener(e->AdminController.supprimerLivre(this,bookNomListe.getSelectedValue()));
+        userAddButton.addActionListener(e->AdminController.ajouterMembre(this));
+        userModifyButton.addActionListener(e->AdminController.modifierMembre(this,userNomListe.getSelectedValue(),userNomListe.getSelectedIndex()));
+        userDeleteButton.addActionListener(e->AdminController.supprimerMembre(this,userNomListe.getSelectedValue()));
+    }
+    public DefaultListModel<String> getBookNomModel() {
+        return bookNomModel;
 
     }
-    public void addComponentsUser() {
+    public DefaultListModel<String> getUserNomModel() {
+        return userNomModel;
+    }
 
+    public DefaultListModel<String> getEmpruntNomModel() {
+        return empruntNomModel;
+    }
+
+    public void addComponentsUser() {
+        for(Membre m:MembreController.membersList){
+            userNomModel.addElement(m.getLastName()+" "+m.getFirstName());
+        }
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         // Panel for user buttons
@@ -95,12 +119,12 @@ public class BiblioView extends JFrame {
         mainPanel.add(userP4, BorderLayout.NORTH);
         mainPanel.add(userListScrollPane, BorderLayout.CENTER);
         mainPanel.add(userP1, BorderLayout.EAST);
-
         mainTabbedPane.addTab("Utilisateurs", mainPanel);
-
-
     }
     public void addComponentsBooks(){
+        for(Livre l:LivreController.livreslist){
+            bookNomModel.addElement(l.getTitre());
+        }
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel bookP1 = new JPanel();
@@ -131,6 +155,10 @@ public class BiblioView extends JFrame {
 
     }
     public void addComponentsEmprunt(){
+        for(Emprunt e: EmpruntController.empruntList){
+            empruntNomModel.addElement(Integer.toString(e.getIdE()));
+        }
+
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel empruntP1 = new JPanel(new GridLayout(3,1,10,10));
         JPanel empruntsubP1 = new JPanel();

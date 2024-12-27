@@ -1,20 +1,20 @@
 package module;
 
-import java.io.Serializable;
+import controller.EmpruntController;
+
 import java.util.Date;
 
-public class Emprunt implements Serializable {
+public class Emprunt {
     private int idE;
     private Livre livreEmprunte;
     private Membre emprunteur;
     private Date dateEmprunt;
     private Date dateRetourTheo;
     private Date dateRetourReel;
-    private static int cpt=1;
 
-    public Emprunt(){idE=cpt++;}
+    public Emprunt(){idE= EmpruntController.EMPRUNT_ID_CPT++;}
     public Emprunt(Livre livreEmprunte,Membre emprunteur,Date dateEmprunt,Date dateRetourTheo,Date dateRetourReel){
-        this.idE=cpt++;
+        this.idE=EmpruntController.EMPRUNT_ID_CPT++;
         this.livreEmprunte=livreEmprunte;
         this.emprunteur=emprunteur;
         this.dateEmprunt=dateEmprunt;
@@ -66,19 +66,12 @@ public class Emprunt implements Serializable {
         return idE;
     }
 
-//    public void setIdE(int idE) {
-//        this.idE = idE;
-//    }
+    public void setIdE(int idE) {
+        this.idE = idE;
+    }
 
     @Override
     public String toString() {
-        return "Emprunt{" +
-                "idE=" + idE +
-                ", livre Emprunte=" + livreEmprunte.getISBN() +
-                ", emprunteur=" + emprunteur.getUid() +
-                ", date Emprunt=" + dateEmprunt +
-                ", date Retour Theorique =" + dateRetourTheo +
-                ", date Retour Réelle=" + dateRetourReel +
-                '}';
+        return  idE +"," + livreEmprunte.getidBook() +"," + emprunteur.getUid() +"," + dateEmprunt +"," + dateRetourTheo +"," + dateRetourReel;
     }
 }

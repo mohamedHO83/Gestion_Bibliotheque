@@ -1,7 +1,8 @@
 package module;
 
+import controller.LivreController;
+
 import java.io.Serializable;
-import java.util.Objects;
 
 public class Livre implements Serializable {
     private int idBook;
@@ -10,35 +11,34 @@ public class Livre implements Serializable {
     private int anneepub;
     private String genre;
     private int nbCopies;
-    private static int cpt=1;
 
-    public Livre() { this.idBook =cpt++;}
+    public Livre() { this.idBook = LivreController.LIVRE_ID_CPT++;}
 
-    public Livre(String titre,String auteur, int anneepub,String genre){
-        this.idBook =cpt++;
+
+    public Livre(String titre, String auteur, int anneepub, String genre, int nbcopies){
+        this.idBook =LivreController.LIVRE_ID_CPT++;
         this.titre=titre;
         this.auteur=auteur;
         this.anneepub=anneepub;
         this.genre=genre;
+        this.nbCopies=nbcopies;
     }
-    public int getISBN(){
+    public int getidBook(){
         return idBook;
     }
 
-    @Override
-    public String toString() {
-        return "Livre{" +
-                "isbn=" + idBook +
-                ", titre='" + titre + '\'' +
-                ", auteur='" + auteur + '\'' +
-                ", anneepub=" + anneepub +
-                ", genre='" + genre + '\'' +
-                '}';
+    public int getNbCopies() {
+        return nbCopies;
     }
 
-    //    public void setISBN(int isbn){
-//        this.isbn=isbn;
-//    }
+    public void setNbCopies(int nbCopies) {
+        this.nbCopies = nbCopies;
+    }
+
+
+        public void setIdBook(int idbook){
+        this.idBook=idbook;
+    }
     public String getAuteur() {
         return auteur;
     }
@@ -76,5 +76,9 @@ public class Livre implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Livre livre)) return false;
         return this.idBook ==((Livre) o).idBook;
+    }
+    @Override
+    public String toString() {
+        return idBook +"," + titre +"," + auteur +"," + anneepub +"," + genre +","+ nbCopies;
     }
 }

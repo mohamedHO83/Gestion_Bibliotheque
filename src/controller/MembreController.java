@@ -6,28 +6,50 @@ import module.Membre;
 import java.io.*;
 import java.util.*;
 
-public class MembreController implements MembreFile{
+public class MembreController {
     public static List<Membre> membersList =new ArrayList<>();
-    @Override
-    public void readMemberFile() {
+    public static int MEMBER_ID_CPT=0;
+
+    public static Membre findMember(int id){
+        for(Membre m:membersList){
+            if(m.getUid()==id){
+                return m;
+            }
+        }
+        return null;
+    }
+
+    public static void readMemberFile() {
         try{
-            ObjectInputStream ois=new ObjectInputStream(new FileInputStream("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Membres.csv"));
+            BufferedReader ois=new BufferedReader(new FileReader("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Membres.csv"));
             Membre m=new Membre();
-            while((m=(Membre)ois.readObject())!=null) {
+            String s;
+            while((s=ois.readLine())!=null) {
+                String[] memberField=s.split(",");
+                if(MEMBER_ID_CPT<Integer.parseInt(memberField[0])) {
+                    MEMBER_ID_CPT=Integer.parseInt(memberField[0])+1;
+                }
+                m.setUid(MEMBER_ID_CPT);
+                m.setLastName(memberField[1]);
+                m.setFirstName(memberField[2]);
+                m.setPassword(memberField[3]);
+                m.setAge(Integer.parseInt(memberField[4]));
+                m.setAdresse(memberField[5]);
                 membersList.add(m);
             }
             ois.close();
-        } catch (IOException|ClassNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Override
-    public void WriteMemberFile() {
+
+    public static void WriteMemberFile() {
         try{
-            ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Membres.csv"));
+            BufferedWriter oos=new BufferedWriter(new FileWriter("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Membres.csv"));
             for(Membre m: membersList){
-                oos.writeObject(m);
+                oos.write(m.toString());
+                oos.newLine();
             }
             oos.close();
         } catch (IOException e) {
