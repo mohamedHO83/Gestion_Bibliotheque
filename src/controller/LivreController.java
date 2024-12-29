@@ -19,7 +19,7 @@ public class LivreController {
     }
     public static void readLivreFile() {
         try{
-            BufferedReader ois=new BufferedReader(new FileReader("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Livres.csv"));
+            BufferedReader ois=new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\src\\Livres.csv"));
             String line;
             while((line=ois.readLine())!=null) {
                 Livre l=new Livre();
@@ -45,7 +45,7 @@ public class LivreController {
 
     public static void WriteLivreFile() {
         try{
-            BufferedWriter oos=new BufferedWriter(new FileWriter("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Livres.csv"));
+            BufferedWriter oos=new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"\\src\\Livres.csv"));
             for(Livre l:livreslist){
                 oos.write(l.toString());
                 oos.newLine();

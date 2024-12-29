@@ -12,7 +12,7 @@ public class EmpruntController  {
     public static int EMPRUNT_ID_CPT=0;
     public static void readEmpruntFile() {
         try {
-            BufferedReader ois = new BufferedReader(new FileReader("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Emprunts.csv"));
+            BufferedReader ois = new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\src\\Emprunts.csv"));
             String line;
             SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
             while((line=ois.readLine()) !=null){
@@ -36,7 +36,7 @@ public class EmpruntController  {
 
     public static void writeEmpruntFile() {
         try{
-            BufferedWriter oos=new BufferedWriter(new FileWriter("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Emprunts.csv"));
+            BufferedWriter oos=new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"\\src\\Emprunts.csv"));
             for(Emprunt e:empruntList){
                 oos.write(e.toString());
                 oos.newLine();
