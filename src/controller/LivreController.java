@@ -27,8 +27,7 @@ public class LivreController {
                 if(LIVRE_ID_CPT<Integer.parseInt(livrefields[0])){
                     LIVRE_ID_CPT=Integer.parseInt(livrefields[0])+1;
                 }
-                l.setIdBook(LIVRE_ID_CPT);
-                LIVRE_ID_CPT++;
+                l.setIdBook(Integer.parseInt(livrefields[0]));
                 l.setTitre(livrefields[1]);
                 l.setAuteur(livrefields[2]);
                 l.setAnneepub(Integer.parseInt(livrefields[3]));
