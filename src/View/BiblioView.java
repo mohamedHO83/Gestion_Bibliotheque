@@ -61,6 +61,7 @@ public class BiblioView extends JFrame {
     JTextField empruntSearchField = new JTextField(20);
     JButton empruntSaveButton = new JButton("Save");
 
+    // statistics section
 
     public BiblioView(){
         MembreController.readMemberFile();
@@ -69,6 +70,7 @@ public class BiblioView extends JFrame {
         addComponentsUser();
         addComponentsBooks();
         addComponentsEmprunt();
+        addComponentsStatistics();
         add(mainTabbedPane);
         pack();
         setTitle("Bibliothèque MAMI");
@@ -115,6 +117,8 @@ public class BiblioView extends JFrame {
             }
         });
     }
+
+
 
 
     public DefaultTableModel getEmpruntTableModel() {
@@ -214,37 +218,7 @@ public class BiblioView extends JFrame {
 
     }
 
-    public DefaultTableModel getUserTableModel() {
-        return userTableModel;
-    }
 
-    public void setUserTableModel(DefaultTableModel userTableModel) {
-        this.userTableModel = userTableModel;
-    }
-
-    public JTable getUserTable() {
-        return userTable;
-    }
-
-    public void setUserTable(JTable userTable) {
-        this.userTable = userTable;
-    }
-
-    public DefaultTableModel getBookTableModel() {
-        return bookTableModel;
-    }
-
-    public void setBookTableModel(DefaultTableModel bookTableModel) {
-        this.bookTableModel = bookTableModel;
-    }
-
-    public JTable getBookTable() {
-        return bookTable;
-    }
-
-    public void setBookTable(JTable bookTable) {
-        this.bookTable = bookTable;
-    }
 
     public void addComponentsEmprunt(){
         for (Emprunt em : EmpruntController.empruntList) {
@@ -301,6 +275,43 @@ public class BiblioView extends JFrame {
 
         mainTabbedPane.addTab("Emprunts",mainPanel);
     }
+    private void addComponentsStatistics() {
+        JPanel mainPanel = new JPanel(new GridLayout(3,2,5,5));
 
+        mainTabbedPane.addTab("Statistiques",mainPanel);
+    }
+
+
+    public DefaultTableModel getUserTableModel() {
+        return userTableModel;
+    }
+
+    public void setUserTableModel(DefaultTableModel userTableModel) {
+        this.userTableModel = userTableModel;
+    }
+
+    public JTable getUserTable() {
+        return userTable;
+    }
+
+    public void setUserTable(JTable userTable) {
+        this.userTable = userTable;
+    }
+
+    public DefaultTableModel getBookTableModel() {
+        return bookTableModel;
+    }
+
+    public void setBookTableModel(DefaultTableModel bookTableModel) {
+        this.bookTableModel = bookTableModel;
+    }
+
+    public JTable getBookTable() {
+        return bookTable;
+    }
+
+    public void setBookTable(JTable bookTable) {
+        this.bookTable = bookTable;
+    }
 }
 
