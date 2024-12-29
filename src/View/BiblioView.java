@@ -8,6 +8,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BiblioView extends JFrame {
 
@@ -276,9 +278,68 @@ public class BiblioView extends JFrame {
         mainTabbedPane.addTab("Emprunts",mainPanel);
     }
     private void addComponentsStatistics() {
-        JPanel mainPanel = new JPanel(new GridLayout(3,2,5,5));
+// Create table models for statistics
+        DefaultTableModel mostBorrowedBooksModel = new DefaultTableModel(
+                new String[]{"Titre", "Count"}, 0);
+        DefaultTableModel mostBorrowedCategoryModel = new DefaultTableModel(
+                new String[]{"Genre", "Count"}, 0);
+        DefaultTableModel mostActiveUsersModel = new DefaultTableModel(
+                new String[]{"Utilisateur", "Count"}, 0);
 
-        mainTabbedPane.addTab("Statistiques",mainPanel);
+        Map<String, Integer> borrowCounts = new HashMap<>();
+        for (Emprunt em : EmpruntController.empruntList) {
+            String bookTitle = em.getLivreEmprunte().getTitre();
+            borrowCounts.put(bookTitle, borrowCounts.getOrDefault(bookTitle, 0) + 1);
+        }
+        borrowCounts.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10) // Limit to top 10 books
+                .forEach(entry -> mostBorrowedBooksModel.addRow(new Object[]{entry.getKey(), entry.getValue()}));
+
+        Map<String, Integer> userActivityCounts = new HashMap<>();
+        for (Emprunt em : EmpruntController.empruntList) {
+            String userName = em.getEmprunteur().getLastName() + " " + em.getEmprunteur().getFirstName();
+            userActivityCounts.put(userName, userActivityCounts.getOrDefault(userName, 0) + 1);
+        }
+        userActivityCounts.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10) // Limit to top 10 users
+                .forEach(entry -> mostActiveUsersModel.addRow(new Object[]{entry.getKey(), entry.getValue()}));
+
+        Map<String, Integer> genreCount = new HashMap<>();
+        for (Emprunt em : EmpruntController.empruntList) {
+            String bookGenre = em.getLivreEmprunte().getGenre();
+            borrowCounts.put(bookGenre, borrowCounts.getOrDefault(bookGenre, 0) + 1);
+        }
+        borrowCounts.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10) // Limit to top 10 categories
+                .forEach(entry -> mostBorrowedCategoryModel.addRow(new Object[]{entry.getKey(), entry.getValue()}));
+        JTable mostBorrowedBooksTable = new JTable(mostBorrowedBooksModel);
+        JTable mostBorrowedCategoryTable = new JTable(mostBorrowedCategoryModel);
+        JTable mostActiveUsersTable = new JTable(mostActiveUsersModel);
+
+        // Create panels for each table
+        JPanel booksPanel = new JPanel(new BorderLayout());
+        booksPanel.add(new JLabel("Livres plus empruntes"), BorderLayout.NORTH);
+        booksPanel.add(new JScrollPane(mostBorrowedBooksTable), BorderLayout.CENTER);
+
+        JPanel genrePanel = new JPanel(new BorderLayout());
+        genrePanel.add(new JLabel("Genres plus empruntes"), BorderLayout.NORTH);
+        genrePanel.add(new JScrollPane(mostBorrowedCategoryTable), BorderLayout.CENTER);
+
+        JPanel usersPanel = new JPanel(new BorderLayout());
+        usersPanel.add(new JLabel("Utilisateurs actifs"), BorderLayout.NORTH);
+        usersPanel.add(new JScrollPane(mostActiveUsersTable), BorderLayout.CENTER);
+
+        // Combine both panels into one main panel
+        JPanel statsPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        statsPanel.add(booksPanel);
+        statsPanel.add(usersPanel);
+        statsPanel.add(genrePanel);
+
+        // Add the panel to the tabbed pane
+        mainTabbedPane.addTab("Statistics", statsPanel);
     }
 
 
