@@ -19,8 +19,7 @@ public class EmpruntController  {
                 Emprunt e=new Emprunt();
                 String[] empruntFields=line.split(",");
                 if(EMPRUNT_ID_CPT<Integer.parseInt(empruntFields[0])){EMPRUNT_ID_CPT=Integer.parseInt(empruntFields[0]);}
-                e.setIdE(EMPRUNT_ID_CPT);
-                EMPRUNT_ID_CPT++;
+                e.setIdE(Integer.parseInt(empruntFields[0]));
                 e.setLivreEmprunte(LivreController.findBook(Integer.parseInt(empruntFields[1])));
                 e.setEmprunteur(MembreController.findMember(Integer.parseInt(empruntFields[2])));
                 e.setDateEmprunt(dateFormat.parse(empruntFields[3]));

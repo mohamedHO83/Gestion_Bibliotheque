@@ -29,8 +29,7 @@ public class MembreController {
                 if(MEMBER_ID_CPT<Integer.parseInt(memberField[0])) {
                     MEMBER_ID_CPT=Integer.parseInt(memberField[0])+1;
                 }
-                m.setUid(MEMBER_ID_CPT);
-                MEMBER_ID_CPT++;
+                m.setUid(Integer.parseInt(memberField[0]));
                 m.setLastName(memberField[1]);
                 m.setFirstName(memberField[2]);
                 m.setPassword(memberField[3]);
