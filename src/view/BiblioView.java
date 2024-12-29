@@ -5,8 +5,15 @@ import module.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Represents the main user interface for the library management system.
+ * This view provides separate tabs for managing users, books, and loans (emprunts),
+ * and integrates with the corresponding controllers for each entity.
+ */
 public class BiblioView extends JFrame {
-
+    /**
+     * Main tabbed pane containing the "Users", "Books", and "Emprunts" sections.
+     */
     JTabbedPane mainTabbedPane = new JTabbedPane();
 
     // user section
@@ -53,7 +60,10 @@ public class BiblioView extends JFrame {
     JTextField empruntSearchField = new JTextField(20);
     JButton empruntSaveButton = new JButton("Save");
 
-
+    /**
+     * Constructs the main library management view.
+     * Initializes components, populates data from controllers, and sets up action listeners.
+     */
     public BiblioView(){
         MembreController.readMemberFile();
         LivreController.readLivreFile();
@@ -87,6 +97,10 @@ public class BiblioView extends JFrame {
         return empruntNomModel;
     }
 
+    /**
+     * Adds components for the "Users" section of the library system.
+     * Populates user data and sets up the user tab layout.
+     */
     public void addComponentsUser() {
         for(Membre m:MembreController.membersList){
             userNomModel.addElement(m.getLastName()+" "+m.getFirstName());
@@ -121,6 +135,11 @@ public class BiblioView extends JFrame {
         mainPanel.add(userP1, BorderLayout.EAST);
         mainTabbedPane.addTab("Utilisateurs", mainPanel);
     }
+
+    /**
+     * Adds components for the "Books" section of the library system.
+     * Populates book data and sets up the book tab layout.
+     */
     public void addComponentsBooks(){
         for(Livre l:LivreController.livreslist){
             bookNomModel.addElement(l.getTitre());
@@ -154,6 +173,11 @@ public class BiblioView extends JFrame {
         mainTabbedPane.addTab("Livres",mainPanel);
 
     }
+
+    /**
+     * Adds components for the "Emprunts" section of the library system.
+     * Populates loan data and sets up the loan tab layout.
+     */
     public void addComponentsEmprunt(){
         for(Emprunt e: EmpruntController.empruntList){
             empruntNomModel.addElement(Integer.toString(e.getIdE()));

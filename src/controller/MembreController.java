@@ -6,10 +6,26 @@ import module.Membre;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Controls operations related to members in the library system.
+ * This class manages the list of members, provides search functionality,
+ * and manages reading from and writing to a file.
+ */
 public class MembreController {
+    /**
+     * List of members in the library system.
+     */
     public static List<Membre> membersList =new ArrayList<>();
+    /**
+     * Counter used to generate IDs for members.
+     */
     public static int MEMBER_ID_CPT=0;
-
+    /**
+     * Searches for a member by its ID in the list of members.
+     *
+     * @param id The ID of the member to search for.
+     * @return The member with the specified ID, or null if the member doesn't exist.
+     */
     public static Membre findMember(int id){
         for(Membre m:membersList){
             if(m.getUid()==id){
@@ -19,9 +35,15 @@ public class MembreController {
         return null;
     }
 
+    /**
+     * Reads the list of members from a CSV file and populates {@link #membersList}.
+     * Each line in the file represents a member's details.
+     *
+     * @throws RuntimeException if there is an I/O error while reading the file.
+     */
     public static void readMemberFile() {
         try{
-            BufferedReader ois=new BufferedReader(new FileReader("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Membres.csv"));
+            BufferedReader ois=new BufferedReader(new FileReader("C:\\Users\\masto\\OneDrive\\Documents\\Projects\\Gestion_Bibliotheque\\src\\Membres.csv"));
             Membre m=new Membre();
             String s;
             while((s=ois.readLine())!=null) {
@@ -43,7 +65,12 @@ public class MembreController {
         }
     }
 
-
+    /**
+     * Writes the list of members to a CSV file.
+     * Each line in the file represents a member's details.
+     *
+     * @throws RuntimeException if an I/O error occurs while writing to the file.
+     */
     public static void WriteMemberFile() {
         try{
             BufferedWriter oos=new BufferedWriter(new FileWriter("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Membres.csv"));

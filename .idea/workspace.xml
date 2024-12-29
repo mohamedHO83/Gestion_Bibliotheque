@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Livres.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Livres.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Membres.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Membres.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/BiblioView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/BiblioView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/EmpruntController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/EmpruntController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/LivreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/LivreController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/MembreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/MembreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/LivreNotFound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/LivreNotFound.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/UserNotFound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/UserNotFound.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/module/Emprunt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Emprunt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/module/Livre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Livre.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/module/Membre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Membre.java" afterDir="false" />
@@ -56,7 +54,7 @@
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/ibrah/OneDrive/Bureau/ProjetJava&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;

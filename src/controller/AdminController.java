@@ -3,6 +3,16 @@ import module.*;
 import view.*;
 import javax.swing.*;
 import java.awt.*;
+
+/**
+ * The AdminController class provides functionality for managing books and members
+ * in the library system. It includes operations for adding, modifying, and deleting
+ * books and members, as well as displaying dialog forms for data entry.
+ *
+ * <p>This class interacts with the `LivreController` and `MembreController` for
+ * handling books and members. It also utilizes the `BiblioView` for
+ * updating the UI components.
+ */
 public class AdminController extends JFrame   {
     //public static ArrayList<Admin> adminList =new ArrayList<>();
 
@@ -33,6 +43,13 @@ public class AdminController extends JFrame   {
 //            throw new RuntimeException(e);
 //        }
 //    }
+    /**
+     * Displays a dialog for adding a new book to the system. Prompts the user
+     * for book details such as title, author, year of publication, genre, and
+     * number of copies.
+     *
+     * @param x The BiblioView instance for updating the UI.
+     */
     public static void ajouterLivre(BiblioView x){
         Livre nouveauLivre=new Livre();
         JTextField titre=new JTextField(10);
@@ -70,6 +87,14 @@ public class AdminController extends JFrame   {
         });
     }
 
+    /**
+     * Displays a dialog for modifying the details of an existing book. Allows the user
+     * to update fields such as title, author, year of publication, and genre.
+     *
+     * @param x     The BiblioView instance for updating the UI.
+     * @param o     The selected book object to modify.
+     * @param index The index of the book in the list model.
+     */
     public static void modifierLivre(BiblioView x, Object o,int index){
         if(o==null){JOptionPane.showMessageDialog(x,"Please select a book");}
         else{
@@ -116,6 +141,13 @@ public class AdminController extends JFrame   {
             }
         }
     }
+
+    /**
+     * Deletes a selected book from the system after user confirmation.
+     *
+     * @param x The BiblioView instance for updating the UI.
+     * @param o The selected book object to delete.
+     */
     public static void supprimerLivre(BiblioView x,Object o){
         if(o==null){JOptionPane.showMessageDialog(x,"Please select a book");}
         else{
@@ -132,6 +164,13 @@ public class AdminController extends JFrame   {
             }
         }
     }
+
+    /**
+     * Displays a dialog for adding a new member to the system. Prompts the user
+     * for member details such as last name, first name, password, age, and address.
+     *
+     * @param x The BiblioView instance for updating the UI.
+     */
     public static void ajouterMembre(BiblioView x){
         Membre nouveauMembre=new Membre();
         JTextField lastName=new JTextField(10);
@@ -169,6 +208,15 @@ public class AdminController extends JFrame   {
             dialog.dispose();
         });
     }
+
+    /**
+     * Displays a dialog for modifying the details of an existing member. Allows the user
+     * to update fields such as last name, first name, password, age, and address.
+     *
+     * @param x     The BiblioView instance for updating the UI.
+     * @param o     The selected member object to modify.
+     * @param index The index of the member in the list model.
+     */
     public static void modifierMembre(BiblioView x,Object o,int index){
         if(o==null){JOptionPane.showMessageDialog(x,"Please select a book");}
         else{
@@ -209,6 +257,13 @@ public class AdminController extends JFrame   {
             }
         }
     }
+
+    /**
+     * Deletes a selected member from the system after user confirmation.
+     *
+     * @param x The BiblioView instance for updating the UI.
+     * @param o The selected member object to delete.
+     */
     public static void supprimerMembre(BiblioView x,Object o){
         if(o==null){JOptionPane.showMessageDialog(x,"Please select a book");}
         else{
