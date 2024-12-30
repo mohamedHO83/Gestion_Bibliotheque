@@ -11,8 +11,16 @@ import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents the main user interface for the library management system.
+ * This view provides separate tabs for managing users, books, and loans (emprunts),
+ * and integrates with the corresponding controllers for each entity.
+ */
 public class BiblioView extends JFrame {
 
+    /**
+     * Main tabbed pane containing the "Users", "Books", and "Emprunts" sections.
+     */
     JTabbedPane mainTabbedPane = new JTabbedPane();
 
     // user section
@@ -54,6 +62,10 @@ public class BiblioView extends JFrame {
     JTable returnTable = new JTable(returnTableModel);
     // statistics section
 
+    /**
+     * Constructs the main library management view.
+     * Initializes components, populates data from controllers, and sets up action listeners.
+     */
     public BiblioView(){
         MembreController.readMemberFile();
         LivreController.readLivreFile();
@@ -124,7 +136,7 @@ public class BiblioView extends JFrame {
             }
         });
     }
-    
+
     public DefaultTableModel getEmpruntTableModel() {
         return empruntTableModel;
     }
@@ -141,6 +153,10 @@ public class BiblioView extends JFrame {
         this.empruntTable = empruntTable;
     }
 
+    /**
+     * Adds components for the "Users" section of the library system.
+     * Populates user data and sets up the user tab layout.
+     */
     public void addComponentsUser() {
         for (Membre m : MembreController.membersList) {
             userTableModel.addRow(new Object[]{
@@ -180,6 +196,11 @@ public class BiblioView extends JFrame {
         mainPanel.add(userP1, BorderLayout.EAST);
         mainTabbedPane.addTab("Members", mainPanel);
     }
+
+    /**
+     * Adds components for the "Books" section of the library system.
+     * Populates book data and sets up the book tab layout.
+     */
     public void addComponentsBooks(){
         for (Livre l : LivreController.livreslist) {
             bookTableModel.addRow(new Object[]{
@@ -220,6 +241,10 @@ public class BiblioView extends JFrame {
 
 
 
+    /**
+     * Adds components for the "Emprunts" section of the library system.
+     * Populates loan data and sets up the loan tab layout.
+     */
     public void addComponentsEmprunt(){
         for (Emprunt em : EmpruntController.empruntList) {
             if(!em.isReturned()) {

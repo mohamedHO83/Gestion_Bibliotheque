@@ -5,8 +5,18 @@ import java.io.*;
 import java.sql.Date;
 import java.util.*;
 
+/**
+ * Controls operations related to emprunts in the library system.
+ * This class handles the list of loans, provides file read/write functionality
+ */
 public class EmpruntController  {
+    /**
+     * List of emprunts in the library system.
+     */
     public static List<Emprunt> empruntList=new ArrayList<>();
+    /**
+     * Counter used to generate IDs for emrprunts.
+     */
     public static int EMPRUNT_ID_CPT=0;
 
     public static Emprunt findEmprunt(int id){
@@ -17,6 +27,12 @@ public class EmpruntController  {
         }
         return null;
     }
+    /**
+     * Reads the list of loans from a CSV file and populates {@link #empruntList}.
+     * Each line in the file represents a loan's details.
+     *
+     * @throws RuntimeException if an I/O error or a parsing error occurs while reading the file.
+     */
     public static void readEmpruntFile() {
         try {
             BufferedReader ois = new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\src\\Emprunts.csv"));
@@ -44,7 +60,12 @@ public class EmpruntController  {
         }
     }
 
-
+    /**
+     * Writes the list of loans to a CSV file.
+     * Each line in the file represents a loan's details.
+     *
+     * @throws RuntimeException if an I/O error occurs while writing to the file.
+     */
     public static void writeEmpruntFile() {
         try{
             BufferedWriter oos=new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"\\src\\Emprunts.csv"));

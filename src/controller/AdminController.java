@@ -6,7 +6,19 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.sql.Date;
 
+/**
+ * AdminController is responsible for managing the administrative actions
+ * related to borrowing (Emprunt) operations. It provides functionality to
+ * modify loans and synchronize the UI with the application's data model.
+ */
 public class AdminController extends JFrame   {
+    /**
+     * Displays a dialog for adding a new book to the system. Prompts the user
+     * for book details such as title, author, year of publication, genre, and
+     * number of copies.
+     *
+     * @param x The BiblioView instance for updating the UI.
+     */
     public static void ajouterLivre(BiblioView x){
         Livre nouveauLivre=new Livre();
         JTextField titre=new JTextField(10);
@@ -50,7 +62,13 @@ public class AdminController extends JFrame   {
             dialog.dispose();
         });
     }
-
+    /**
+     * Displays a dialog for modifying the details of an existing book. Allows the user
+     * to update fields such as title, author, year of publication, and genre.
+     *
+     * @param x     The BiblioView instance for updating the UI.
+     * @param index The index of the book in the list model.
+     */
     public static void modifierLivre(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a book");return;}
         Livre l=LivreController.livreslist.get(index);
@@ -96,7 +114,12 @@ public class AdminController extends JFrame   {
             dialog.dispose();
         });
     }
-
+    /**
+     * Deletes a selected book from the system after user confirmation.
+     *
+     * @param x The BiblioView instance for updating the UI.
+     * @param index the index of the selected book in the data model
+     */
     public static void supprimerLivre(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a book");return;}
         int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this book?");
@@ -107,7 +130,12 @@ public class AdminController extends JFrame   {
         }
     }
 
-
+    /**
+     * Displays a dialog for adding a new member to the system. Prompts the user
+     * for member details such as last name, first name, password, age, and address.
+     *
+     * @param x The BiblioView instance for updating the UI.
+     */
     public static void ajouterMembre(BiblioView x){
         Membre nouveauMembre=new Membre();
         JTextField lastName=new JTextField(10);
@@ -150,6 +178,13 @@ public class AdminController extends JFrame   {
             MembreController.WriteMemberFile();
         });
     }
+    /**
+     * Displays a dialog for modifying the details of an existing member. Allows the user
+     * to update fields such as last name, first name, password, age, and address.
+     *
+     * @param x     The BiblioView instance for updating the UI.
+     * @param index the index of the selected book in the data model
+     */
     public static void modifierMembre(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a member");return;}
         Membre m=MembreController.membersList.get(index);
@@ -195,6 +230,12 @@ public class AdminController extends JFrame   {
             dialog.dispose();
         });
     }
+    /**
+     * Deletes a selected member from the system after user confirmation.
+     *
+     * @param x The BiblioView instance for updating the UI.
+     * @param index the index of the selected book in the data model
+     */
     public static void supprimerMembre(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a member");return;}
         int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this member?");
@@ -338,4 +379,3 @@ public class AdminController extends JFrame   {
         x.getEmpruntTableModel().removeRow(index);
     }
 }
-
