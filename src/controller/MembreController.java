@@ -1,6 +1,5 @@
 package controller;
 
-import interfaces.MembreFile;
 import module.Membre;
 
 import java.io.*;
@@ -43,15 +42,16 @@ public class MembreController {
      */
     public static void readMemberFile() {
         try{
-            BufferedReader ois=new BufferedReader(new FileReader("C:\\Users\\masto\\OneDrive\\Documents\\Projects\\Gestion_Bibliotheque\\src\\Membres.csv"));
-            Membre m=new Membre();
+            BufferedReader ois=new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\src\\Membres.csv"));
             String s;
             while((s=ois.readLine())!=null) {
+                if(s.isEmpty()){return;}
+                Membre m=new Membre();
                 String[] memberField=s.split(",");
                 if(MEMBER_ID_CPT<Integer.parseInt(memberField[0])) {
                     MEMBER_ID_CPT=Integer.parseInt(memberField[0])+1;
                 }
-                m.setUid(MEMBER_ID_CPT);
+                m.setUid(Integer.parseInt(memberField[0]));
                 m.setLastName(memberField[1]);
                 m.setFirstName(memberField[2]);
                 m.setPassword(memberField[3]);
@@ -73,7 +73,7 @@ public class MembreController {
      */
     public static void WriteMemberFile() {
         try{
-            BufferedWriter oos=new BufferedWriter(new FileWriter("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Membres.csv"));
+            BufferedWriter oos=new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"\\src\\Membres.csv"));
             for(Membre m: membersList){
                 oos.write(m.toString());
                 oos.newLine();

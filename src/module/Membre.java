@@ -1,4 +1,5 @@
 package module;
+import java.sql.Date;
 
 /**
  * Represents a member of the library system.
@@ -9,12 +10,31 @@ package module;
  *   @author Mohammed
  */
 public class Membre extends User {
+    private boolean penalized=false;
+    private Date finPenalite;
+
     /**
      * Default constructor for the Membre class.
      * Calls the default constructor of the User class.
      */
     public Membre(){
         super();
+    }
+
+    public boolean isPenalized() {
+        return penalized;
+    }
+
+    public void setPenalized(boolean penalized) {
+        this.penalized = penalized;
+    }
+
+    public Date getFinPenalite() {
+        return finPenalite;
+    }
+
+    public void setFinPenalite(Date penalite) {
+        this.finPenalite = penalite;
     }
 
     /**
@@ -27,7 +47,12 @@ public class Membre extends User {
      * @param age      The age of the member.
      * @param adresse  The address of the member.
      */
-    public Membre(int uid,String lastName,String firstName,String password,int age,String adresse){
+    public Membre(int uid, String lastName, String firstName, String password, int age, String adresse){
         super(lastName,firstName,password,age,adresse);
     }
+    public String getFullName(){
+        return this.lastName+" "+this.firstName;
+    }
+
+
 }

@@ -4,19 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="integration de la page statistique">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/BiblioView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/EmpruntController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/EmpruntController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/LivreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/LivreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/MembreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/MembreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/LivreNotFound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/LivreNotFound.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exceptions/UserNotFound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/UserNotFound.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/Emprunt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Emprunt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/Livre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Livre.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/Membre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Membre.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/BiblioView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +74,23 @@
       <option name="presentableId" value="Default" />
       <updated>1733385161611</updated>
     </task>
+    <task id="LOCAL-00001" summary="3awed jreb">
+      <option name="closed" value="true" />
+      <created>1735322223765</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1735322223765</updated>
+    </task>
+    <task id="LOCAL-00002" summary="integration de la page statistique">
+      <option name="closed" value="true" />
+      <created>1735489660600</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1735489660600</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -108,12 +116,21 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="3awed jreb" />
+    <MESSAGE value="integration de la page statistique" />
+    <option name="LAST_COMMIT_MESSAGE" value="integration de la page statistique" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.io.EOFException" package="java.io" />
           <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="2" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>

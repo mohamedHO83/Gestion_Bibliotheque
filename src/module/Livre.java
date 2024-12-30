@@ -12,8 +12,7 @@ import java.io.Serializable;
  * @author Ismail
  * @author Mohammed
  */
-
-public class Livre implements Serializable {
+public class Livre  {
     /**
      * Represents the ID of the book.
      */
@@ -69,14 +68,6 @@ public class Livre implements Serializable {
     public int getidBook(){
         return idBook;
     }
-    /**
-     * Sets the ID of the book.
-     *
-     * @param idbook The new ID for the book.
-     */
-    public void setIdBook(int idbook){
-        this.idBook=idbook;
-    }
 
     /**
      * Gets the number of copies available in the library.
@@ -96,10 +87,13 @@ public class Livre implements Serializable {
     }
 
     /**
-     * Gets the author of the book.
+     * Sets the ID of the book.
      *
-     * @return The author of the book.
+     * @param idbook The new ID for the book.
      */
+    public void setIdBook(int idbook){
+        this.idBook=idbook;
+    }
     public String getAuteur() {
         return auteur;
     }

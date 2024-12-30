@@ -1,7 +1,5 @@
 package controller;
 
-import interfaces.LivreFile;
-import module.Emprunt;
 import module.Livre;
 import java.util.*;
 import java.io.*;
@@ -20,6 +18,7 @@ public class LivreController {
      * Counter used to generate IDs for books.
      */
     public static int LIVRE_ID_CPT=0;
+
     /**
      * Searches for a book by its ID in the list of books.
      *
@@ -34,6 +33,7 @@ public class LivreController {
         }
         return null;
     }
+
     /**
      * Reads the list of books from a CSV file and populates {@link #livreslist}.
      * Each line in the file represents a book's details.
@@ -42,19 +42,21 @@ public class LivreController {
      */
     public static void readLivreFile() {
         try{
-            BufferedReader ois=new BufferedReader(new FileReader("C:\\Users\\masto\\OneDrive\\Documents\\Projects\\Gestion_Bibliotheque\\src\\Livres.csv"));
-            Livre l=new Livre();
+            BufferedReader ois=new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\src\\Livres.csv"));
             String line;
             while((line=ois.readLine())!=null) {
+                if(line.isEmpty()){return;}
+                Livre l=new Livre();
                 String[] livrefields=line.split(",");
-                if(LIVRE_ID_CPT<Integer.parseInt(livrefields[0])){LIVRE_ID_CPT=Integer.parseInt(livrefields[0])+1;}
-                l.setIdBook(LIVRE_ID_CPT++);
+                if(LIVRE_ID_CPT<Integer.parseInt(livrefields[0])){
+                    LIVRE_ID_CPT=Integer.parseInt(livrefields[0])+1;
+                }
+                l.setIdBook(Integer.parseInt(livrefields[0]));
                 l.setTitre(livrefields[1]);
                 l.setAuteur(livrefields[2]);
                 l.setAnneepub(Integer.parseInt(livrefields[3]));
                 l.setGenre(livrefields[4]);
                 l.setNbCopies(Integer.parseInt(livrefields[5]));
-                System.out.println(l);
                 livreslist.add(l);
             }
             ois.close();
@@ -71,7 +73,7 @@ public class LivreController {
      */
     public static void WriteLivreFile() {
         try{
-            BufferedWriter oos=new BufferedWriter(new FileWriter("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Livres.csv"));
+            BufferedWriter oos=new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"\\src\\Livres.csv"));
             for(Livre l:livreslist){
                 oos.write(l.toString());
                 oos.newLine();

@@ -2,7 +2,7 @@ package module;
 
 import controller.EmpruntController;
 
-import java.util.Date;
+import java.sql.Date;
 
 
 /**
@@ -34,49 +34,26 @@ public class Emprunt {
      * Represents the expected return date.
      */
     private Date dateRetourTheo;
-    /**
-     * Represents the actual return date.
-     */
-    private Date dateRetourReel;
+    private boolean returned=false;
 
     /**
      * Default constructor for class Emprunt
      */
     public Emprunt(){idE= EmpruntController.EMPRUNT_ID_CPT++;}
-
-    /**
-     * Constructor for class Emprunt
-     * @param livreEmprunte The Emprunt's book.
-     * @param emprunteur The Emprunt's Member.
-     * @param dateEmprunt The Emprunt's date.
-     * @param dateRetourTheo The Emprunt's expected return date.
-     * @param dateRetourReel The Emprunt's actual return date.
-     */
-    public Emprunt(Livre livreEmprunte,Membre emprunteur,Date dateEmprunt,Date dateRetourTheo,Date dateRetourReel){
+    public Emprunt(Livre livreEmprunte,Membre emprunteur,Date dateEmprunt,Date dateRetourTheo){
         this.idE=EmpruntController.EMPRUNT_ID_CPT++;
         this.livreEmprunte=livreEmprunte;
         this.emprunteur=emprunteur;
         this.dateEmprunt=dateEmprunt;
         this.dateRetourTheo=dateRetourTheo;
-        this.dateRetourReel=dateRetourReel;
     }
 
-    /**
-     * Gets the actual return date.
-     *
-     * @return The actual return date.
-     */
-    public Date getDateRetourReel() {
-        return dateRetourReel;
+    public boolean isReturned() {
+        return returned;
     }
 
-    /**
-     * Sets the actual return date.
-     *
-     * @param dateRetourReel The actual return date.
-     */
-    public void setDateRetourReel(Date dateRetourReel) {
-        this.dateRetourReel = dateRetourReel;
+    public void setReturned(boolean returned) {
+        this.returned = returned;
     }
 
     /**
@@ -170,6 +147,6 @@ public class Emprunt {
      */
     @Override
     public String toString() {
-        return  idE +"," + livreEmprunte.getidBook() +"," + emprunteur.getUid() +"," + dateEmprunt +"," + dateRetourTheo +"," + dateRetourReel;
+        return  idE +"," + livreEmprunte.getidBook() +"," + emprunteur.getUid() +"," + dateEmprunt +"," + dateRetourTheo+","+returned ;
     }
 }

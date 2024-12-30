@@ -3,46 +3,15 @@ import module.*;
 import view.*;
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.sql.Date;
 
 /**
- * The AdminController class provides functionality for managing books and members
- * in the library system. It includes operations for adding, modifying, and deleting
- * books and members, as well as displaying dialog forms for data entry.
- *
- * <p>This class interacts with the `LivreController` and `MembreController` for
- * handling books and members. It also utilizes the `BiblioView` for
- * updating the UI components.
+ * AdminController is responsible for managing the administrative actions
+ * related to borrowing (Emprunt) operations. It provides functionality to
+ * modify loans and synchronize the UI with the application's data model.
  */
 public class AdminController extends JFrame   {
-    //public static ArrayList<Admin> adminList =new ArrayList<>();
-
-//    public void readAdminFile() {
-//        try{
-//            BufferedReader ois=new BufferedReader(new FileReader("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Bibliothecaire.csv"));
-//            Admin a=new Admin();
-//            String line;
-//            while((line= ois.readLine())!=null) {
-//
-//                adminList.add(a);
-//            }
-//            ois.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//
-//    public void WriteAdminFile() {
-//        try{
-//            ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("C:\\Users\\ibrah\\OneDrive\\Bureau\\ProjetJava\\src\\Bibliothecaireb.csv"));
-//            for(Admin a: adminList){
-//                oos.writeObject(a);
-//            }
-//            oos.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
     /**
      * Displays a dialog for adding a new book to the system. Prompts the user
      * for book details such as title, author, year of publication, genre, and
@@ -81,87 +50,83 @@ public class AdminController extends JFrame   {
             nouveauLivre.setGenre(genre.getText());
             nouveauLivre.setNbCopies(Integer.parseInt(nbCopies.getText()));
             LivreController.livreslist.add(nouveauLivre);
-            x.getBookNomModel().addElement(nouveauLivre.getTitre());
+            x.getBookTableModel().addRow(new Object[]{
+                    nouveauLivre.getidBook(),
+                    nouveauLivre.getTitre(),
+                    nouveauLivre.getAuteur(),
+                    nouveauLivre.getAnneepub(),
+                    nouveauLivre.getGenre(),
+                    nouveauLivre.getNbCopies()
+            });
             LivreController.WriteLivreFile();
             dialog.dispose();
         });
     }
-
     /**
      * Displays a dialog for modifying the details of an existing book. Allows the user
      * to update fields such as title, author, year of publication, and genre.
      *
      * @param x     The BiblioView instance for updating the UI.
-     * @param o     The selected book object to modify.
      * @param index The index of the book in the list model.
      */
-    public static void modifierLivre(BiblioView x, Object o,int index){
-        if(o==null){JOptionPane.showMessageDialog(x,"Please select a book");}
-        else{
-            for(Livre l:LivreController.livreslist){
-                if(l.getTitre().equals(o)){
-                    JTextField ISBN=new JTextField(Integer.toString(l.getidBook()),10);
-                    ISBN.setEditable(false);
-                    JTextField titre=new JTextField(l.getTitre(),10);
-                    JTextField autheur=new JTextField(l.getAuteur(),10);
-                    JTextField annee=new JTextField(Integer.toString(l.getAnneepub()),10);
-                    JTextField genre=new JTextField(l.getGenre(),10);
-                    JTextField nbCopies=new JTextField(Integer.toString(l.getNbCopies()),10);
-                    JButton submit=new JButton("Submit");
-                    JDialog dialog=new JDialog(x);
-                    dialog.setLayout(new GridLayout());
-                    dialog.setSize(1000,800);
-                    dialog.setLocationRelativeTo(null);
-                    dialog.add(new JLabel("Titre: "));
-                    dialog.add(titre);
-                    dialog.add(new JLabel("Book id: "));
-                    dialog.add(ISBN);
-                    dialog.add(new JLabel("Autheur: "));
-                    dialog.add(autheur);
-                    dialog.add(new JLabel("Année de publication: "));
-                    dialog.add(annee);
-                    dialog.add(new JLabel("Genre: "));
-                    dialog.add(genre);
-                    dialog.add(new JLabel("Nombre de copies"));
-                    dialog.add(nbCopies);
-                    dialog.add(submit);
-                    dialog.setVisible(true);
-                    submit.addActionListener(e->{
-                        l.setTitre(titre.getText());
-                        l.setAuteur(autheur.getText());
-                        l.setAnneepub(Integer.parseInt(annee.getText()));
-                        l.setGenre(genre.getText());
-                        String s=l.getTitre();
-                        x.getBookNomModel().set(index,s);
-                        LivreController.WriteLivreFile();
-                        dialog.dispose();
-                    });
-                    return;
-                }
-            }
-        }
+    public static void modifierLivre(BiblioView x,int index){
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a book");return;}
+        Livre l=LivreController.livreslist.get(index);
+        JTextField ISBN = new JTextField(Integer.toString(l.getidBook()), 10);
+        ISBN.setEditable(false);
+        JTextField titre = new JTextField(l.getTitre(), 10);
+        JTextField autheur = new JTextField(l.getAuteur(), 10);
+        JTextField annee = new JTextField(Integer.toString(l.getAnneepub()), 10);
+        JTextField genre = new JTextField(l.getGenre(), 10);
+        JTextField nbCopies = new JTextField(Integer.toString(l.getNbCopies()), 10);
+        JButton submit = new JButton("Submit");
+        JDialog dialog = new JDialog(x);
+        dialog.setLayout(new GridLayout());
+        dialog.setSize(1000, 800);
+        dialog.setLocationRelativeTo(null);
+        dialog.add(new JLabel("Book id: "));
+        dialog.add(ISBN);
+        dialog.add(new JLabel("Titre: "));
+        dialog.add(titre);
+        dialog.add(new JLabel("Autheur: "));
+        dialog.add(autheur);
+        dialog.add(new JLabel("Année de publication: "));
+        dialog.add(annee);
+        dialog.add(new JLabel("Genre: "));
+        dialog.add(genre);
+        dialog.add(new JLabel("Nombre de copies"));
+        dialog.add(nbCopies);
+        dialog.add(submit);
+        dialog.setVisible(true);
+        submit.addActionListener(e -> {
+            l.setTitre(titre.getText());
+            l.setAuteur(autheur.getText());
+            l.setAnneepub(Integer.parseInt(annee.getText()));
+            l.setGenre(genre.getText());
+            l.setNbCopies(Integer.parseInt(nbCopies.getText()));
+            String s = l.getTitre();
+            x.getBookTableModel().setValueAt(l.getTitre(), index, 1);
+            x.getBookTableModel().setValueAt(l.getAuteur(), index, 2);
+            x.getBookTableModel().setValueAt(l.getAnneepub(), index, 3);
+            x.getBookTableModel().setValueAt(l.getGenre(), index, 4);
+            x.getBookTableModel().setValueAt(l.getNbCopies(), index, 5);
+            LivreController.WriteLivreFile();
+            dialog.dispose();
+        });
     }
-
     /**
      * Deletes a selected book from the system after user confirmation.
      *
      * @param x The BiblioView instance for updating the UI.
-     * @param o The selected book object to delete.
+     * @param index the index of the selected book in the data model
      */
-    public static void supprimerLivre(BiblioView x,Object o){
-        if(o==null){JOptionPane.showMessageDialog(x,"Please select a book");}
-        else{
-            for(Livre l:LivreController.livreslist){
-                if(l.getTitre().equals(o)){
-                    int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this book?");
-                    if(choice==JOptionPane.YES_OPTION){
-                        LivreController.livreslist.remove(l);
-                        x.getBookNomModel().removeElement(o);
-                        LivreController.WriteLivreFile();
-                    }
-                    return;
-                }
-            }
+    public static void supprimerLivre(BiblioView x,int index){
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a book");return;}
+        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this book?");
+        if(choice==JOptionPane.YES_OPTION){
+            LivreController.livreslist.remove(index);
+            x.getBookTableModel().removeRow(index);
+            LivreController.WriteLivreFile();
         }
     }
 
@@ -195,90 +160,222 @@ public class AdminController extends JFrame   {
         dialog.add(adress);
         dialog.add(submit);
         dialog.setVisible(true);
-        submit.addActionListener(e->{
+        submit.addActionListener(e-> {
             nouveauMembre.setLastName(lastName.getText());
             nouveauMembre.setFirstName(firstName.getText());
             nouveauMembre.setPassword(password.getText());
-            nouveauMembre.setAge(Integer.parseInt(age.getText()));
             nouveauMembre.setAdresse(adress.getText());
+            nouveauMembre.setAge(Integer.parseInt(age.getText()));
+            x.getUserTableModel().addRow(new Object[]{
+                    nouveauMembre.getUid(),
+                    nouveauMembre.getLastName(),
+                    nouveauMembre.getFirstName(),
+                    nouveauMembre.getPassword(),
+                    nouveauMembre.getAdresse()
+            });
             dialog.setVisible(false);
             MembreController.membersList.add(nouveauMembre);
-            x.getUserNomModel().addElement(nouveauMembre.getLastName()+" "+nouveauMembre.getFirstName());
             MembreController.WriteMemberFile();
-            dialog.dispose();
         });
     }
-
     /**
      * Displays a dialog for modifying the details of an existing member. Allows the user
      * to update fields such as last name, first name, password, age, and address.
      *
      * @param x     The BiblioView instance for updating the UI.
-     * @param o     The selected member object to modify.
-     * @param index The index of the member in the list model.
+     * @param index the index of the selected book in the data model
      */
-    public static void modifierMembre(BiblioView x,Object o,int index){
-        if(o==null){JOptionPane.showMessageDialog(x,"Please select a book");}
-        else{
-            for (Membre m : MembreController.membersList) {
-                if ((m.getLastName() + " " + m.getFirstName()).equals(o)) {
-                    JTextField lastName = new JTextField(m.getLastName(), 10);
-                    JTextField firstName = new JTextField(m.getFirstName(), 10);
-                    JTextField password = new JTextField(m.getPassword(), 10);
-                    JTextField age = new JTextField(Integer.toString(m.getAge()), 10);
-                    JTextField adress = new JTextField(m.getAdresse(), 10);
-                    JButton submit = new JButton("Submit");
-                    JDialog dialog = new JDialog(x);
-                    dialog.setLayout(new GridLayout());
-                    dialog.setSize(1000, 800);
-                    dialog.setLocationRelativeTo(null);
-                    dialog.add(new JLabel("Last Name: "));
-                    dialog.add(lastName);
-                    dialog.add(new JLabel("First Name: "));
-                    dialog.add(firstName);
-                    dialog.add(new JLabel("Age: "));
-                    dialog.add(age);
-                    dialog.add(new JLabel("Adress: "));
-                    dialog.add(adress);
-                    dialog.add(submit);
-                    dialog.setVisible(true);
-                    submit.addActionListener(e -> {
-                        m.setLastName(lastName.getText());
-                        m.setFirstName(firstName.getText());
-                        m.setPassword(password.getText());
-                        m.setAge(Integer.parseInt(age.getText()));
-                        m.setAdresse(adress.getText());
-                        String s=m.getLastName()+" "+m.getFirstName();
-                        x.getUserNomModel().set(index,s);
-                        MembreController.WriteMemberFile();
-                        dialog.dispose();
-                    });
-                }
-            }
-        }
+    public static void modifierMembre(BiblioView x,int index){
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a member");return;}
+        Membre m=MembreController.membersList.get(index);
+        JTextField UID = new JTextField(Integer.toString(m.getUid()), 10);
+        UID.setEditable(false);
+        JTextField lastName = new JTextField(m.getLastName(), 10);
+        JTextField firstName = new JTextField(m.getFirstName(), 10);
+        JTextField password = new JTextField(m.getPassword(), 10);
+        JTextField age = new JTextField(Integer.toString(m.getAge()), 10);
+        JTextField adresse = new JTextField(m.getAdresse(), 10);
+        JButton submit = new JButton("Submit");
+        JDialog dialog = new JDialog(x);
+        dialog.setLayout(new GridLayout());
+        dialog.setSize(1000, 800);
+        dialog.setLocationRelativeTo(null);
+        dialog.add(new JLabel("Member Id: "));
+        dialog.add(UID);
+        dialog.add(new JLabel("Last Name: "));
+        dialog.add(lastName);
+        dialog.add(new JLabel("First Name: "));
+        dialog.add(firstName);
+        dialog.add(new JLabel("Password: "));
+        dialog.add(password);
+        dialog.add(new JLabel("Age: "));
+        dialog.add(age);
+        dialog.add(new JLabel("Adresse"));
+        dialog.add(adresse);
+        dialog.add(submit);
+        dialog.setVisible(true);
+        submit.addActionListener(e -> {
+            m.setLastName(lastName.getText());
+            m.setFirstName(firstName.getText());
+            m.setAge(Integer.parseInt(age.getText()));
+            m.setPassword(password.getText());
+            m.setAdresse(adresse.getText());
+            x.getUserTableModel().setValueAt(m.getUid(), index, 0);
+            x.getUserTableModel().setValueAt(m.getLastName(), index, 1);
+            x.getUserTableModel().setValueAt(m.getFirstName(), index, 2);
+            x.getUserTableModel().setValueAt(m.getPassword(), index, 3);
+            x.getUserTableModel().setValueAt(m.getAge(), index, 4);
+            x.getUserTableModel().setValueAt(m.getAdresse(), index, 5);
+            MembreController.WriteMemberFile();
+            dialog.dispose();
+        });
     }
-
     /**
      * Deletes a selected member from the system after user confirmation.
      *
      * @param x The BiblioView instance for updating the UI.
-     * @param o The selected member object to delete.
+     * @param index the index of the selected book in the data model
      */
-    public static void supprimerMembre(BiblioView x,Object o){
-        if(o==null){JOptionPane.showMessageDialog(x,"Please select a book");}
-        else{
-            for(Membre m:MembreController.membersList){
-                if((m.getLastName()+" "+m.getFirstName()).equals(o)){
-                    int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this member?");
-                    if(choice==JOptionPane.YES_OPTION){
-                        MembreController.membersList.remove(m);
-                        x.getUserNomModel().removeElement(o);
-                        MembreController.WriteMemberFile();
-                    }
-                    return;
-                }
-            }
+    public static void supprimerMembre(BiblioView x,int index){
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a member");return;}
+        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this member?");
+        if(choice==JOptionPane.YES_OPTION){
+            MembreController.membersList.remove(index);
+            x.getUserTableModel().removeRow(index);
+            MembreController.WriteMemberFile();
         }
     }
+    public static void ajouterEmprunt(BiblioView x){
+        Emprunt nouvelleEmprunt=new Emprunt();
+        if(LivreController.findBook(Integer.parseInt(x.getEmpruntAddBookNomField().getText())).getNbCopies()==0){
+            JOptionPane.showMessageDialog(x,"No copies available for this book.");
+        }else {
+            nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(x.getEmpruntAddBookNomField().getText())));
+            nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(x.getEmpruntAddUserNomField().getText())));
+            nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
+            nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
+            EmpruntController.empruntList.add(nouvelleEmprunt);
+            x.getEmpruntTableModel().addRow(new Object[]{
+                    nouvelleEmprunt.getIdE(),
+                    nouvelleEmprunt.getLivreEmprunte().getidBook(),
+                    nouvelleEmprunt.getEmprunteur().getUid(),
+                    nouvelleEmprunt.getDateEmprunt(),
+                    nouvelleEmprunt.getDateRetourTheo()
+            });
+            EmpruntController.writeEmpruntFile();
+        }
+    }
+    public static void borrowBook(BiblioView x, int index){
+        Emprunt nouvelleEmprunt=new Emprunt();
+        int livreID=LivreController.livreslist.get(index).getidBook();
+        JTextField bookId=new JTextField(Integer.toString(livreID),10);
+        JTextField memberId=new JTextField(10);
+        JButton submit=new JButton("Submit");
+        JDialog dialog=new JDialog(x);
+        dialog.setLayout(new GridLayout());
+        dialog.setSize(1000,800);
+        dialog.setLocationRelativeTo(null);
+        dialog.add(new JLabel("Book Id: "));
+        dialog.add(bookId);
+        dialog.add(new JLabel("Member Id: "));
+        dialog.add(memberId);
+        dialog.add(submit);
+        dialog.setVisible(true);
+        submit.addActionListener(event->{
+            if(LivreController.findBook(Integer.parseInt(bookId.getText())).getNbCopies()==0){
+                JOptionPane.showMessageDialog(dialog,"No copies available for this book.");
+            }else {
+                nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
+                nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
+                nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
+                nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
+                EmpruntController.empruntList.add(nouvelleEmprunt);
+                LivreController.livreslist.get(index).setNbCopies(LivreController.livreslist.get(index).getNbCopies()-1);
+                x.getBookTableModel().setValueAt(LivreController.livreslist.get(index).getNbCopies(),index,5);
+                x.getEmpruntTableModel().addRow(new Object[]{
+                        nouvelleEmprunt.getIdE(),
+                        nouvelleEmprunt.getLivreEmprunte().getidBook(),
+                        nouvelleEmprunt.getEmprunteur().getUid(),
+                        nouvelleEmprunt.getDateEmprunt(),
+                        nouvelleEmprunt.getDateRetourTheo()
+                });
+                EmpruntController.writeEmpruntFile();
+            }
+            dialog.dispose();
+        });
+    }
+    public static void modifierEmprunt(BiblioView x,int index){
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
+        Emprunt em=EmpruntController.empruntList.get(index);
+        JTextField empruntID = new JTextField(Integer.toString(em.getIdE()), 10);
+        empruntID.setEditable(false);
+        JTextField bookId = new JTextField(Integer.toString(em.getLivreEmprunte().getidBook()), 10);
+        JTextField memberId = new JTextField(Integer.toString(em.getEmprunteur().getUid()), 10);
+        JTextField dateEmprunt = new JTextField(em.getDateEmprunt().toString(), 10);
+        JTextField dateRetourTheo = new JTextField(em.getDateRetourTheo().toString(), 10);
+        JButton submit = new JButton("Submit");
+        JDialog dialog = new JDialog(x);
+        dialog.setLayout(new GridLayout());
+        dialog.setSize(1000, 800);
+        dialog.setLocationRelativeTo(null);
+        dialog.add(new JLabel("Loan id: "));
+        dialog.add(empruntID);
+        dialog.add(new JLabel("Book id: "));
+        dialog.add(bookId);
+        dialog.add(new JLabel("Member id: "));
+        dialog.add(memberId);
+        dialog.add(new JLabel("Loan Date: "));
+        dialog.add(dateEmprunt);
+        dialog.add(new JLabel("Supposed Return Date: "));
+        dialog.add(dateRetourTheo);
 
+        dialog.add(submit);
+        dialog.setVisible(true);
+        submit.addActionListener(e -> {
+            em.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
+            em.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
+            em.setDateEmprunt(Date.valueOf(LocalDate.now()));
+            em.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
+            x.getEmpruntTableModel().setValueAt(em.getLivreEmprunte().getidBook(), index, 1);
+            x.getEmpruntTableModel().setValueAt(em.getEmprunteur().getUid(), index, 2);
+            x.getEmpruntTableModel().setValueAt(em.getDateEmprunt(), index, 3);
+            x.getBookTableModel().setValueAt(em.getDateRetourTheo(), index, 4);
+            EmpruntController.writeEmpruntFile();
+            dialog.dispose();
+        });
+    }
+
+    public static void supprimerEmprunt(BiblioView x,int index){
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
+        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this loan?");
+        if(choice==JOptionPane.YES_OPTION){
+            EmpruntController.empruntList.remove(index);
+            x.getEmpruntTableModel().removeRow(index);
+            EmpruntController.writeEmpruntFile();
+        }
+    }
+    public static void returnBook(BiblioView x, int index){
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
+        Retour returned=new Retour();
+        returned.setEmpruntretournee(EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0)));
+        returned.setLivreretourne(LivreController.findBook((int)x.getEmpruntTableModel().getValueAt(index,1)));
+        returned.setMembreemprunteur(MembreController.findMember((int) x.getEmpruntTableModel().getValueAt(index,2)));
+        returned.setDateRetour(Date.valueOf(LocalDate.now()));
+        if(returned.setPenalite()){
+            JOptionPane.showMessageDialog(x,"This book has been returne late, a penalty has been applied");
+        }
+        RetourController.retourList.add(returned);
+        EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0)).setReturned(true);
+        RetourController.writeRetourFile();
+        EmpruntController.writeEmpruntFile();
+        returned.getLivreretourne().setNbCopies(returned.getLivreretourne().getNbCopies()+1);
+        x.getReturnTableModel().addRow(new Object[]{
+                returned.getIdRetour(),
+                returned.getEmpruntretournee().getIdE(),
+                returned.getLivreretourne().getidBook(),
+                returned.getMembreemprunteur().getUid(),
+                returned.getDateRetour()
+        });
+        x.getEmpruntTableModel().removeRow(index);
+    }
 }
