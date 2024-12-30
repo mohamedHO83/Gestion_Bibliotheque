@@ -119,10 +119,7 @@ public class BiblioView extends JFrame {
             }
         });
     }
-
-
-
-
+    
     public DefaultTableModel getEmpruntTableModel() {
         return empruntTableModel;
     }
