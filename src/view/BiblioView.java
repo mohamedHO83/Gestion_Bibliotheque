@@ -38,9 +38,9 @@ public class BiblioView extends JFrame {
     JTextField bookSearchField = new JTextField(20);
 
     // Emprunt section
-    JLabel     empruntAddNomLabel = new JLabel("⌕ User");
+    JLabel     empruntAddNomLabel = new JLabel("User Id");
     JTextField empruntAddUserNomField = new JTextField(20);
-    JLabel     empruntAddBookLabel = new JLabel("⌕ Book");
+    JLabel     empruntAddBookLabel = new JLabel("Book Id");
     JTextField empruntAddBookNomField = new JTextField(20);
     JButton    empruntAddButton = new JButton("New Loan");
     JButton empruntRetourButton = new JButton("return");
@@ -372,5 +372,13 @@ public class BiblioView extends JFrame {
     public JTable getReturnTable() {
         return returnTable;
     }
+    public JTextField getEmpruntAddBookNomField() {
+        return empruntAddBookNomField;
+    }
+
+    public JTextField getEmpruntAddUserNomField() {
+        return empruntAddUserNomField;
+    }
+
 }
 

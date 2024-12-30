@@ -4,7 +4,7 @@ import controller.LivreController;
 
 import java.io.Serializable;
 
-public class Livre implements Serializable {
+public class Livre  {
     private int idBook;
     private String titre;
     private String auteur;

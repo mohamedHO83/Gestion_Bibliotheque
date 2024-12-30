@@ -26,7 +26,6 @@ public class RetourController {
                 re.setDateRetour(Date.valueOf(returnFields[4]));
                 retourList.add(re);
             }
-            System.out.println(retourList);
             ois.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

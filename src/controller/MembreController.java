@@ -1,6 +1,5 @@
 package controller;
 
-import interfaces.MembreFile;
 import module.Membre;
 
 import java.io.*;

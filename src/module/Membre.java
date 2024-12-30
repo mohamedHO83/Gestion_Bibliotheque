@@ -1,6 +1,4 @@
 package module;
-
-
 import java.sql.Date;
 
 public class Membre extends User {

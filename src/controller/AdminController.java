@@ -206,39 +206,23 @@ public class AdminController extends JFrame   {
     }
     public static void ajouterEmprunt(BiblioView x){
         Emprunt nouvelleEmprunt=new Emprunt();
-        JTextField bookId=new JTextField(10);
-        JTextField memberId=new JTextField(10);
-        JButton submit=new JButton("Submit");
-        JDialog dialog=new JDialog(x);
-        dialog.setLayout(new GridLayout());
-        dialog.setSize(1000,800);
-        dialog.setLocationRelativeTo(null);
-        dialog.add(new JLabel("Book Id: "));
-        dialog.add(bookId);
-        dialog.add(new JLabel("Member Id: "));
-        dialog.add(memberId);
-        dialog.add(submit);
-        dialog.setVisible(true);
-        submit.addActionListener(event->{
-            if(LivreController.findBook(Integer.parseInt(bookId.getText())).getNbCopies()==0){
-                JOptionPane.showMessageDialog(dialog,"No copies available for this book.");
-            }else {
-                nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
-                nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
-                nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
-                nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
-                EmpruntController.empruntList.add(nouvelleEmprunt);
-                x.getEmpruntTableModel().addRow(new Object[]{
-                        nouvelleEmprunt.getIdE(),
-                        nouvelleEmprunt.getLivreEmprunte().getidBook(),
-                        nouvelleEmprunt.getEmprunteur().getUid(),
-                        nouvelleEmprunt.getDateEmprunt(),
-                        nouvelleEmprunt.getDateRetourTheo()
-                });
-                EmpruntController.writeEmpruntFile();
-            }
-            dialog.dispose();
-        });
+        if(LivreController.findBook(Integer.parseInt(x.getEmpruntAddBookNomField().getText())).getNbCopies()==0){
+            JOptionPane.showMessageDialog(x,"No copies available for this book.");
+        }else {
+            nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(x.getEmpruntAddBookNomField().getText())));
+            nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(x.getEmpruntAddUserNomField().getText())));
+            nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
+            nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
+            EmpruntController.empruntList.add(nouvelleEmprunt);
+            x.getEmpruntTableModel().addRow(new Object[]{
+                    nouvelleEmprunt.getIdE(),
+                    nouvelleEmprunt.getLivreEmprunte().getidBook(),
+                    nouvelleEmprunt.getEmprunteur().getUid(),
+                    nouvelleEmprunt.getDateEmprunt(),
+                    nouvelleEmprunt.getDateRetourTheo()
+            });
+            EmpruntController.writeEmpruntFile();
+        }
     }
     public static void borrowBook(BiblioView x, int index){
         Emprunt nouvelleEmprunt=new Emprunt();
