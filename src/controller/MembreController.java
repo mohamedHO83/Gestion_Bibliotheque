@@ -1,6 +1,5 @@
 package controller;
 
-import interfaces.MembreFile;
 import module.Membre;
 
 import java.io.*;
@@ -24,6 +23,7 @@ public class MembreController {
             BufferedReader ois=new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\src\\Membres.csv"));
             String s;
             while((s=ois.readLine())!=null) {
+                if(s.isEmpty()){return;}
                 Membre m=new Membre();
                 String[] memberField=s.split(",");
                 if(MEMBER_ID_CPT<Integer.parseInt(memberField[0])) {
@@ -37,7 +37,6 @@ public class MembreController {
                 m.setAdresse(memberField[5]);
                 membersList.add(m);
             }
-            System.out.println(membersList);
             ois.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

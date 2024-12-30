@@ -2,7 +2,7 @@ package module;
 
 import controller.EmpruntController;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Emprunt {
     private int idE;
@@ -10,24 +10,23 @@ public class Emprunt {
     private Membre emprunteur;
     private Date dateEmprunt;
     private Date dateRetourTheo;
-    private Date dateRetourReel;
+    private boolean returned=false;
 
     public Emprunt(){idE= EmpruntController.EMPRUNT_ID_CPT++;}
-    public Emprunt(Livre livreEmprunte,Membre emprunteur,Date dateEmprunt,Date dateRetourTheo,Date dateRetourReel){
+    public Emprunt(Livre livreEmprunte,Membre emprunteur,Date dateEmprunt,Date dateRetourTheo){
         this.idE=EmpruntController.EMPRUNT_ID_CPT++;
         this.livreEmprunte=livreEmprunte;
         this.emprunteur=emprunteur;
         this.dateEmprunt=dateEmprunt;
         this.dateRetourTheo=dateRetourTheo;
-        this.dateRetourReel=dateRetourReel;
     }
 
-    public Date getDateRetourReel() {
-        return dateRetourReel;
+    public boolean isReturned() {
+        return returned;
     }
 
-    public void setDateRetourReel(Date dateRetourReel) {
-        this.dateRetourReel = dateRetourReel;
+    public void setReturned(boolean returned) {
+        this.returned = returned;
     }
 
     public Date getDateRetourTheo() {
@@ -72,6 +71,6 @@ public class Emprunt {
 
     @Override
     public String toString() {
-        return  idE +"," + livreEmprunte.getidBook() +"," + emprunteur.getUid() +"," + dateEmprunt +"," + dateRetourTheo +"," + dateRetourReel;
+        return  idE +"," + livreEmprunte.getidBook() +"," + emprunteur.getUid() +"," + dateEmprunt +"," + dateRetourTheo+","+returned ;
     }
 }

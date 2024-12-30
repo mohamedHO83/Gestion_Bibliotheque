@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="integration de la page statistique">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/BiblioView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/BiblioView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,6 +127,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.io.EOFException" package="java.io" />
           <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="2" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
