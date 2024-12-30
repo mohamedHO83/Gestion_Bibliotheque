@@ -2,16 +2,12 @@ package controller;
 import module.*;
 import view.*;
 import javax.swing.*;
-import javax.swing.text.DateFormatter;
 import java.awt.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.LocalDate;
+import java.sql.Date;
 
 public class AdminController extends JFrame   {
     public static void ajouterLivre(BiblioView x){
-//        DateFormatter dateFormatter=new DateFormatter();
-//        dateFormatter.setFormat(new );
         Livre nouveauLivre=new Livre();
         JTextField titre=new JTextField(10);
         JTextField autheur=new JTextField(10);
@@ -99,7 +95,6 @@ public class AdminController extends JFrame   {
             LivreController.WriteLivreFile();
             dialog.dispose();
         });
-        return;
     }
 
     public static void supprimerLivre(BiblioView x,int index){
@@ -110,7 +105,6 @@ public class AdminController extends JFrame   {
             x.getBookTableModel().removeRow(index);
             LivreController.WriteLivreFile();
         }
-        return;
     }
 
 
@@ -191,16 +185,15 @@ public class AdminController extends JFrame   {
             m.setAge(Integer.parseInt(age.getText()));
             m.setPassword(password.getText());
             m.setAdresse(adresse.getText());
-            x.getBookTableModel().setValueAt(m.getUid(), index, 1);
-            x.getBookTableModel().setValueAt(m.getLastName(), index, 2);
-            x.getBookTableModel().setValueAt(m.getFirstName(), index, 3);
-            x.getBookTableModel().setValueAt(m.getPassword(), index, 4);
-            x.getBookTableModel().setValueAt(m.getAge(), index, 5);
-            x.getBookTableModel().setValueAt(m.getAdresse(), index, 5);
+            x.getUserTableModel().setValueAt(m.getUid(), index, 0);
+            x.getUserTableModel().setValueAt(m.getLastName(), index, 1);
+            x.getUserTableModel().setValueAt(m.getFirstName(), index, 2);
+            x.getUserTableModel().setValueAt(m.getPassword(), index, 3);
+            x.getUserTableModel().setValueAt(m.getAge(), index, 4);
+            x.getUserTableModel().setValueAt(m.getAdresse(), index, 5);
             MembreController.WriteMemberFile();
             dialog.dispose();
         });
-        return;
     }
     public static void supprimerMembre(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a member");return;}
@@ -210,15 +203,11 @@ public class AdminController extends JFrame   {
             x.getUserTableModel().removeRow(index);
             MembreController.WriteMemberFile();
         }
-        return;
     }
     public static void ajouterEmprunt(BiblioView x){
         Emprunt nouvelleEmprunt=new Emprunt();
         JTextField bookId=new JTextField(10);
         JTextField memberId=new JTextField(10);
-        JTextField dateEmprunt=new JTextField(10);
-        JTextField dateRetourTheo=new JTextField(10);
-        JTextField dateRetourRelle = new JTextField(10);
         JButton submit=new JButton("Submit");
         JDialog dialog=new JDialog(x);
         dialog.setLayout(new GridLayout());
@@ -228,46 +217,68 @@ public class AdminController extends JFrame   {
         dialog.add(bookId);
         dialog.add(new JLabel("Member Id: "));
         dialog.add(memberId);
-        dialog.add(new JLabel("Loan Date: "));
-        dialog.add(dateEmprunt);
-        dialog.add(new JLabel("Supposed Return Date: "));
-        dialog.add(dateRetourTheo);
-        dialog.add(new JLabel("Actual Return Date"));
-        dialog.add(dateRetourRelle);
         dialog.add(submit);
         dialog.setVisible(true);
         submit.addActionListener(event->{
-            nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
-            nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
-            try{
-                nouvelleEmprunt.setDateEmprunt((DateFormat.getDateInstance().parse(dateEmprunt.getText())));
-            } catch (ParseException e) {
-                JOptionPane.showMessageDialog(dialog,"Loan Date incorrect, please try again ");
+            if(LivreController.findBook(Integer.parseInt(bookId.getText())).getNbCopies()==0){
+                JOptionPane.showMessageDialog(dialog,"No copies available for this book.");
+            }else {
+                nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
+                nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
+                nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
+                nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
+                EmpruntController.empruntList.add(nouvelleEmprunt);
+                x.getEmpruntTableModel().addRow(new Object[]{
+                        nouvelleEmprunt.getIdE(),
+                        nouvelleEmprunt.getLivreEmprunte().getidBook(),
+                        nouvelleEmprunt.getEmprunteur().getUid(),
+                        nouvelleEmprunt.getDateEmprunt(),
+                        nouvelleEmprunt.getDateRetourTheo()
+                });
+                EmpruntController.writeEmpruntFile();
             }
-            try{
-                nouvelleEmprunt.setDateRetourTheo((DateFormat.getDateInstance().parse(dateRetourTheo.getText())));
-            } catch (ParseException e) {
-                JOptionPane.showMessageDialog(dialog,"Supposed Return Date incorrect, please try again ");
-            }
-            try{
-                nouvelleEmprunt.setDateRetourReel((DateFormat.getDateInstance().parse(dateRetourRelle.getText())));
-            } catch (ParseException e) {
-                JOptionPane.showMessageDialog(dialog,"Actual return Date, please try again ");
-            }
-            EmpruntController.empruntList.add(nouvelleEmprunt);
-            x.getEmpruntTableModel().addRow(new Object[]{
-                    nouvelleEmprunt.getIdE(),
-                    nouvelleEmprunt.getLivreEmprunte().getidBook(),
-                    nouvelleEmprunt.getEmprunteur().getUid(),
-                    nouvelleEmprunt.getDateEmprunt(),
-                    nouvelleEmprunt.getDateRetourTheo(),
-                    nouvelleEmprunt.getDateRetourReel()
-            });
-            EmpruntController.writeEmpruntFile();
             dialog.dispose();
         });
     }
-
+    public static void borrowBook(BiblioView x, int index){
+        Emprunt nouvelleEmprunt=new Emprunt();
+        int livreID=LivreController.livreslist.get(index).getidBook();
+        JTextField bookId=new JTextField(Integer.toString(livreID),10);
+        JTextField memberId=new JTextField(10);
+        JButton submit=new JButton("Submit");
+        JDialog dialog=new JDialog(x);
+        dialog.setLayout(new GridLayout());
+        dialog.setSize(1000,800);
+        dialog.setLocationRelativeTo(null);
+        dialog.add(new JLabel("Book Id: "));
+        dialog.add(bookId);
+        dialog.add(new JLabel("Member Id: "));
+        dialog.add(memberId);
+        dialog.add(submit);
+        dialog.setVisible(true);
+        submit.addActionListener(event->{
+            if(LivreController.findBook(Integer.parseInt(bookId.getText())).getNbCopies()==0){
+                JOptionPane.showMessageDialog(dialog,"No copies available for this book.");
+            }else {
+                nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
+                nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
+                nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
+                nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
+                EmpruntController.empruntList.add(nouvelleEmprunt);
+                LivreController.livreslist.get(index).setNbCopies(LivreController.livreslist.get(index).getNbCopies()-1);
+                x.getBookTableModel().setValueAt(LivreController.livreslist.get(index).getNbCopies(),index,5);
+                x.getEmpruntTableModel().addRow(new Object[]{
+                        nouvelleEmprunt.getIdE(),
+                        nouvelleEmprunt.getLivreEmprunte().getidBook(),
+                        nouvelleEmprunt.getEmprunteur().getUid(),
+                        nouvelleEmprunt.getDateEmprunt(),
+                        nouvelleEmprunt.getDateRetourTheo()
+                });
+                EmpruntController.writeEmpruntFile();
+            }
+            dialog.dispose();
+        });
+    }
     public static void modifierEmprunt(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
         Emprunt em=EmpruntController.empruntList.get(index);
@@ -277,7 +288,6 @@ public class AdminController extends JFrame   {
         JTextField memberId = new JTextField(Integer.toString(em.getEmprunteur().getUid()), 10);
         JTextField dateEmprunt = new JTextField(em.getDateEmprunt().toString(), 10);
         JTextField dateRetourTheo = new JTextField(em.getDateRetourTheo().toString(), 10);
-        JTextField dateRetourReel = new JTextField(em.getDateRetourReel().toString(), 10);
         JButton submit = new JButton("Submit");
         JDialog dialog = new JDialog(x);
         dialog.setLayout(new GridLayout());
@@ -293,37 +303,21 @@ public class AdminController extends JFrame   {
         dialog.add(dateEmprunt);
         dialog.add(new JLabel("Supposed Return Date: "));
         dialog.add(dateRetourTheo);
-        dialog.add(new JLabel("Actual Return Date"));
-        dialog.add(dateRetourReel);
+
         dialog.add(submit);
         dialog.setVisible(true);
         submit.addActionListener(e -> {
             em.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
             em.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
-            try{
-                em.setDateEmprunt((DateFormat.getDateInstance().parse(dateEmprunt.getText())));
-            } catch (ParseException er) {
-                JOptionPane.showMessageDialog(dialog,"Loan Date incorrect, please try again ");
-            }
-            try{
-                em.setDateRetourTheo((DateFormat.getDateInstance().parse(dateRetourTheo.getText())));
-            } catch (ParseException er) {
-                JOptionPane.showMessageDialog(dialog,"Supposed Return Date incorrect, please try again ");
-            }
-            try{
-                em.setDateRetourReel((DateFormat.getDateInstance().parse(dateRetourReel.getText())));
-            } catch (ParseException er) {
-                JOptionPane.showMessageDialog(dialog,"Actual return Date, please try again ");
-            }
+            em.setDateEmprunt(Date.valueOf(LocalDate.now()));
+            em.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
             x.getEmpruntTableModel().setValueAt(em.getLivreEmprunte().getidBook(), index, 1);
             x.getEmpruntTableModel().setValueAt(em.getEmprunteur().getUid(), index, 2);
             x.getEmpruntTableModel().setValueAt(em.getDateEmprunt(), index, 3);
             x.getBookTableModel().setValueAt(em.getDateRetourTheo(), index, 4);
-            x.getUserTableModel().setValueAt(em.getDateRetourReel(), index, 5);
             EmpruntController.writeEmpruntFile();
             dialog.dispose();
         });
-        return;
     }
 
     public static void supprimerEmprunt(BiblioView x,int index){
@@ -334,7 +328,30 @@ public class AdminController extends JFrame   {
             x.getEmpruntTableModel().removeRow(index);
             EmpruntController.writeEmpruntFile();
         }
-        return;
+    }
+    public static void returnBook(BiblioView x, int index){
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
+        Retour returned=new Retour();
+        returned.setEmpruntretournee(EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0)));
+        returned.setLivreretourne(LivreController.findBook((int)x.getEmpruntTableModel().getValueAt(index,1)));
+        returned.setMembreemprunteur(MembreController.findMember((int) x.getEmpruntTableModel().getValueAt(index,2)));
+        returned.setDateRetour(Date.valueOf(LocalDate.now()));
+        if(returned.setPenalite()){
+            JOptionPane.showMessageDialog(x,"This book has been returne late, a penalty has been applied");
+        }
+        RetourController.retourList.add(returned);
+        EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0)).setReturned(true);
+        RetourController.writeRetourFile();
+        EmpruntController.writeEmpruntFile();
+        returned.getLivreretourne().setNbCopies(returned.getLivreretourne().getNbCopies()+1);
+        x.getReturnTableModel().addRow(new Object[]{
+                returned.getIdRetour(),
+                returned.getEmpruntretournee().getIdE(),
+                returned.getLivreretourne().getidBook(),
+                returned.getMembreemprunteur().getUid(),
+                returned.getDateRetour()
+        });
+        x.getEmpruntTableModel().removeRow(index);
     }
 }
 

@@ -16,66 +16,56 @@ public class BiblioView extends JFrame {
     JTabbedPane mainTabbedPane = new JTabbedPane();
 
     // user section
-
-    JButton userDetailsButton = new JButton("Details");
     JButton userAddButton = new JButton("Add");
     JButton userModifyButton = new JButton("Modify");
     JButton userDeleteButton = new JButton("Delete");
-    JButton userSaveButton = new JButton("Save");
     DefaultTableModel userTableModel = new DefaultTableModel(
-            new String[]{"ID", "Nom", "Prénom","Mot de Passe", "Âge", "Adresse"}, 0);
+            new String[]{"Member Id", "Last Name", "First Name","Password", "Age", "Adress"}, 0
+    );
     JTable userTable = new JTable(userTableModel);
-    JLabel userSearchLabel = new JLabel("Rechercher : ");
+    JLabel userSearchLabel = new JLabel("Search : ");
     JTextField userSearchField = new JTextField(20);
 
     // book section
-    JButton bookDetailsButton = new JButton("Details");
     JButton bookAddButton = new JButton("Add");
     JButton bookModifyButton = new JButton("Modify");
     JButton bookDeleteButton = new JButton("Delete");
     JButton bookEmpruntButton = new JButton("Borrow");
-    JButton bookSaveButton = new JButton("Save");
     DefaultTableModel bookTableModel = new DefaultTableModel(
-            new String[]{"ID", "Titre", "Auteur", "Année", "Genre", "Copies"}, 0);
+            new String[]{"Book Id", "Title", "Author", "Year", "Genre", "Copies"}, 0);
     JTable bookTable = new JTable(bookTableModel);
-
-    JLabel bookSearchLabel = new JLabel("Rechercher : ");
+    JLabel bookSearchLabel = new JLabel("Search : ");
     JTextField bookSearchField = new JTextField(20);
 
     // Emprunt section
-    JLabel     empruntAddNomLabel = new JLabel("⌕ user");
+    JLabel     empruntAddNomLabel = new JLabel("⌕ User");
     JTextField empruntAddUserNomField = new JTextField(20);
-    JLabel     empruntAddBookLabel = new JLabel("⌕ book");
+    JLabel     empruntAddBookLabel = new JLabel("⌕ Book");
     JTextField empruntAddBookNomField = new JTextField(20);
-    JButton    empruntAddButton = new JButton("Créer emprunt");
-
-    JLabel empruntDetailsId = new JLabel("ID Emprunt : ");
-    JLabel empruntDetailsNomUser = new JLabel("nom propriétaire : ");
-    JLabel empruntDetailsNomBook = new JLabel("nom livre : ");
-    JLabel empruntDetailsDateEmprunt = new JLabel("date d'emprunt : ");
-    JLabel empruntDetailsDateRetourTheorique = new JLabel("date de retour théorique : ");
-    JButton empruntRetourButton = new JButton("retourner");
-
+    JButton    empruntAddButton = new JButton("New Loan");
+    JButton empruntRetourButton = new JButton("return");
     DefaultTableModel empruntTableModel = new DefaultTableModel(
-            new String[]{"ID", "Book Id", "Member Id","Loan Date", "Supposed Return Date", "Actual Return Date"}, 0);
+            new String[]{"Loan Id", "Book Id", "Member Id","Loan Date", "Supposed Return Date"}, 0);
     JTable empruntTable = new JTable(empruntTableModel);
-    JLabel empruntSearchLabel = new JLabel("Rechercher : ");
+    JLabel empruntSearchLabel = new JLabel("Search : ");
     JTextField empruntSearchField = new JTextField(20);
-    JButton empruntSaveButton = new JButton("Save");
-
+    DefaultTableModel returnTableModel = new DefaultTableModel(
+            new String[]{"return Id","Loan Id","Book Id", "Member Id","Actual Return Date"}, 0);
+    JTable returnTable = new JTable(returnTableModel);
     // statistics section
 
     public BiblioView(){
         MembreController.readMemberFile();
         LivreController.readLivreFile();
         EmpruntController.readEmpruntFile();
+        RetourController.readRetourFile();
         addComponentsUser();
         addComponentsBooks();
         addComponentsEmprunt();
         addComponentsStatistics();
         add(mainTabbedPane);
         pack();
-        setTitle("Bibliothèque MAMI");
+        setTitle("Library MAMI");
         setSize(1080,720);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,13 +73,14 @@ public class BiblioView extends JFrame {
         bookAddButton.addActionListener(e-> AdminController.ajouterLivre(this));
         bookModifyButton.addActionListener(e->AdminController.modifierLivre(this,bookTable.getSelectedRow()));
         bookDeleteButton.addActionListener(e->AdminController.supprimerLivre(this,bookTable.getSelectedRow()));
+        bookEmpruntButton.addActionListener(e->AdminController.borrowBook(this,bookTable.getSelectedRow()));
 
         userAddButton.addActionListener(e->AdminController.ajouterMembre(this));
         userModifyButton.addActionListener(e->AdminController.modifierMembre(this,userTable.getSelectedRow()));
         userDeleteButton.addActionListener(e->AdminController.supprimerMembre(this,userTable.getSelectedRow()));
 
         empruntAddButton.addActionListener(e->AdminController.ajouterEmprunt(this));
-
+        empruntRetourButton.addActionListener(e->AdminController.returnBook(this,empruntTable.getSelectedRow()));
         bookSearchField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -110,6 +101,20 @@ public class BiblioView extends JFrame {
                 String typed = userSearchField.getText()+e.getKeyChar();
                 typed = typed.trim();
                 TableRowSorter<TableModel> sorter=new TableRowSorter<>(userTableModel);
+                userTable.setRowSorter(sorter);
+                if(typed.length()==0){
+                    sorter.setRowFilter(null);
+                }else{
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)"+typed));
+                }
+            }
+        });
+        empruntSearchField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                String typed = empruntSearchField.getText()+e.getKeyChar();
+                typed = typed.trim();
+                TableRowSorter<TableModel> sorter=new TableRowSorter<>(empruntTableModel);
                 userTable.setRowSorter(sorter);
                 if(typed.length()==0){
                     sorter.setRowFilter(null);
@@ -152,7 +157,6 @@ public class BiblioView extends JFrame {
         // Panel for user buttons
         JPanel userP1 = new JPanel();
         userP1.setLayout(new GridLayout(4, 1, 10, 10));
-        userP1.add(userDetailsButton);
         userP1.add(userAddButton);
         userP1.add(userModifyButton);
         userP1.add(userDeleteButton);
@@ -162,7 +166,6 @@ public class BiblioView extends JFrame {
         userP2.add(userSearchLabel);
         userP2.add(userSearchField);
         JPanel userP3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        userP3.add(userSaveButton);
         JPanel userP4 = new JPanel();
         userP4.add(userP2);
         userP4.add(userP3);
@@ -175,7 +178,7 @@ public class BiblioView extends JFrame {
         mainPanel.add(userP4, BorderLayout.NORTH);
         mainPanel.add(userListScrollPane, BorderLayout.CENTER);
         mainPanel.add(userP1, BorderLayout.EAST);
-        mainTabbedPane.addTab("Utilisateurs", mainPanel);
+        mainTabbedPane.addTab("Members", mainPanel);
     }
     public void addComponentsBooks(){
         for (Livre l : LivreController.livreslist) {
@@ -191,7 +194,6 @@ public class BiblioView extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel bookP1 = new JPanel();
         bookP1.setLayout(new GridLayout(5,1,10,10));
-        bookP1.add(bookDetailsButton);
         bookP1.add(bookAddButton);
         bookP1.add(bookModifyButton);
         bookP1.add(bookDeleteButton);
@@ -201,7 +203,6 @@ public class BiblioView extends JFrame {
         bookP2.add(bookSearchLabel);
         bookP2.add(bookSearchField);
         JPanel bookP3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        bookP3.add(bookSaveButton);
         JPanel bookP4 = new JPanel();
         bookP4.add(bookP2);
         bookP4.add(bookP3);
@@ -213,7 +214,7 @@ public class BiblioView extends JFrame {
         mainPanel.add(bookListScrollPane,BorderLayout.CENTER);
         mainPanel.add(bookP1,BorderLayout.EAST);
 
-        mainTabbedPane.addTab("Livres",mainPanel);
+        mainTabbedPane.addTab("Books",mainPanel);
 
     }
 
@@ -221,13 +222,23 @@ public class BiblioView extends JFrame {
 
     public void addComponentsEmprunt(){
         for (Emprunt em : EmpruntController.empruntList) {
-            bookTableModel.addRow(new Object[]{
-                    em.getIdE(),
-                    em.getEmprunteur().getUid(),
-                    em.getLivreEmprunte().getidBook(),
-                    em.getDateEmprunt(),
-                    em.getDateRetourTheo(),
-                    em.getDateRetourReel()
+            if(!em.isReturned()) {
+                empruntTableModel.addRow(new Object[]{
+                        em.getIdE(),
+                        em.getEmprunteur().getUid(),
+                        em.getLivreEmprunte().getidBook(),
+                        em.getDateEmprunt(),
+                        em.getDateRetourTheo()
+                });
+            }
+        }
+        for(Retour re: RetourController.retourList){
+            returnTableModel.addRow(new Object[]{
+                    re.getIdRetour(),
+                    re.getEmpruntretournee().getIdE(),
+                    re.getLivreretourne().getidBook(),
+                    re.getMembreemprunteur().getUid(),
+                    re.getDateRetour()
             });
         }
 
@@ -244,11 +255,6 @@ public class BiblioView extends JFrame {
         empruntP1.add(empruntAddButton);
 
         JPanel empruntP2 = new JPanel(new GridLayout(6,1,10,10));
-        empruntP2.add(empruntDetailsId);
-        empruntP2.add(empruntDetailsNomUser);
-        empruntP2.add(empruntDetailsNomBook);
-        empruntP2.add(empruntDetailsDateEmprunt);
-        empruntP2.add(empruntDetailsDateRetourTheorique);
         empruntP2.add(empruntRetourButton);
 
         JPanel empruntP3 = new JPanel(new GridLayout(2,1,10,10));
@@ -260,28 +266,30 @@ public class BiblioView extends JFrame {
         empruntP4.add(empruntSearchField);
 
         JPanel empruntP5 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        empruntP5.add(empruntSaveButton);
         JPanel empruntP6 = new JPanel();
         empruntP6.add(empruntP4);
         empruntP6.add(empruntP5);
 
 
         JScrollPane empruntListScrollPane = new JScrollPane(empruntTable);
-
+        JScrollPane returnTableScrollPane=new JScrollPane(returnTable);
+        JPanel tablesPanel=new JPanel(new GridLayout(2,1));
+        tablesPanel.add(empruntListScrollPane);
+        tablesPanel.add(returnTableScrollPane);
         mainPanel.add(empruntP6,BorderLayout.NORTH);
-        mainPanel.add(empruntListScrollPane,BorderLayout.CENTER);
+        mainPanel.add(tablesPanel,BorderLayout.CENTER);
         mainPanel.add(empruntP3,BorderLayout.EAST);
 
-        mainTabbedPane.addTab("Emprunts",mainPanel);
+        mainTabbedPane.addTab("Loans",mainPanel);
     }
     private void addComponentsStatistics() {
 // Create table models for statistics
         DefaultTableModel mostBorrowedBooksModel = new DefaultTableModel(
-                new String[]{"Titre", "Count"}, 0);
+                new String[]{"Title", "Count"}, 0);
         DefaultTableModel mostBorrowedCategoryModel = new DefaultTableModel(
                 new String[]{"Genre", "Count"}, 0);
         DefaultTableModel mostActiveUsersModel = new DefaultTableModel(
-                new String[]{"Utilisateur", "Count"}, 0);
+                new String[]{"Member", "Count"}, 0);
 
         Map<String, Integer> borrowCounts = new HashMap<>();
         for (Emprunt em : EmpruntController.empruntList) {
@@ -318,15 +326,15 @@ public class BiblioView extends JFrame {
 
         // Create panels for each table
         JPanel booksPanel = new JPanel(new BorderLayout());
-        booksPanel.add(new JLabel("Livres plus empruntes"), BorderLayout.NORTH);
+        booksPanel.add(new JLabel("Most Loaned Books"), BorderLayout.NORTH);
         booksPanel.add(new JScrollPane(mostBorrowedBooksTable), BorderLayout.CENTER);
 
         JPanel genrePanel = new JPanel(new BorderLayout());
-        genrePanel.add(new JLabel("Genres plus empruntes"), BorderLayout.NORTH);
+        genrePanel.add(new JLabel("Most Loaned Genres"), BorderLayout.NORTH);
         genrePanel.add(new JScrollPane(mostBorrowedCategoryTable), BorderLayout.CENTER);
 
         JPanel usersPanel = new JPanel(new BorderLayout());
-        usersPanel.add(new JLabel("Utilisateurs actifs"), BorderLayout.NORTH);
+        usersPanel.add(new JLabel("Most Active Users"), BorderLayout.NORTH);
         usersPanel.add(new JScrollPane(mostActiveUsersTable), BorderLayout.CENTER);
 
         // Combine both panels into one main panel
@@ -344,32 +352,25 @@ public class BiblioView extends JFrame {
         return userTableModel;
     }
 
-    public void setUserTableModel(DefaultTableModel userTableModel) {
-        this.userTableModel = userTableModel;
-    }
-
     public JTable getUserTable() {
         return userTable;
-    }
-
-    public void setUserTable(JTable userTable) {
-        this.userTable = userTable;
     }
 
     public DefaultTableModel getBookTableModel() {
         return bookTableModel;
     }
 
-    public void setBookTableModel(DefaultTableModel bookTableModel) {
-        this.bookTableModel = bookTableModel;
-    }
-
     public JTable getBookTable() {
         return bookTable;
     }
 
-    public void setBookTable(JTable bookTable) {
-        this.bookTable = bookTable;
+
+    public DefaultTableModel getReturnTableModel() {
+        return returnTableModel;
+    }
+
+    public JTable getReturnTable() {
+        return returnTable;
     }
 }
 

@@ -36,7 +36,7 @@ public class Livre implements Serializable {
     }
 
 
-        public void setIdBook(int idbook){
+    public void setIdBook(int idbook){
         this.idBook=idbook;
     }
     public String getAuteur() {
