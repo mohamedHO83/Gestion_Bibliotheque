@@ -60,7 +60,17 @@ public class BiblioView extends JFrame {
     DefaultTableModel returnTableModel = new DefaultTableModel(
             new String[]{"return Id","Loan Id","Book Id", "Member Id","Actual Return Date"}, 0);
     JTable returnTable = new JTable(returnTableModel);
+
     // statistics section
+    DefaultTableModel mostBorrowedBooksModel = new DefaultTableModel(
+            new String[]{"Title", "Count"}, 0);
+    DefaultTableModel mostBorrowedCategoryModel = new DefaultTableModel(
+            new String[]{"Genre", "Count"}, 0);
+    DefaultTableModel mostActiveUsersModel = new DefaultTableModel(
+            new String[]{"Member", "Count"}, 0);
+
+    Map<String, Integer> borrowCounts = new HashMap<>();
+
 
     /**
      * Constructs the main library management view.
@@ -309,14 +319,7 @@ public class BiblioView extends JFrame {
     }
     private void addComponentsStatistics() {
 // Create table models for statistics
-        DefaultTableModel mostBorrowedBooksModel = new DefaultTableModel(
-                new String[]{"Title", "Count"}, 0);
-        DefaultTableModel mostBorrowedCategoryModel = new DefaultTableModel(
-                new String[]{"Genre", "Count"}, 0);
-        DefaultTableModel mostActiveUsersModel = new DefaultTableModel(
-                new String[]{"Member", "Count"}, 0);
 
-        Map<String, Integer> borrowCounts = new HashMap<>();
         for (Emprunt em : EmpruntController.empruntList) {
             String bookTitle = em.getLivreEmprunte().getTitre();
             borrowCounts.put(bookTitle, borrowCounts.getOrDefault(bookTitle, 0) + 1);
@@ -372,6 +375,47 @@ public class BiblioView extends JFrame {
         mainTabbedPane.addTab("Statistics", statsPanel);
     }
 
+    public void updateStatistics() {
+        // Clear the table
+        mostBorrowedBooksModel.setRowCount(0);
+        mostBorrowedCategoryModel.setRowCount(0);
+        mostActiveUsersModel.setRowCount(0);
+
+        Map<String, Integer> bookBorrowCounts = new HashMap<>();
+        Map<String, Integer> userBorrowCounts = new HashMap<>();
+        Map<String, Integer> genreBorrowCounts = new HashMap<>();
+
+        for (Emprunt em : EmpruntController.empruntList) {
+
+            String bookTitle = em.getLivreEmprunte().getTitre();
+            bookBorrowCounts.put(bookTitle, bookBorrowCounts.getOrDefault(bookTitle, 0) + 1);
+
+
+            String userName = em.getEmprunteur().getLastName() + " " + em.getEmprunteur().getFirstName();
+            userBorrowCounts.put(userName, userBorrowCounts.getOrDefault(userName, 0) + 1);
+
+
+            String genre = em.getLivreEmprunte().getGenre();
+            genreBorrowCounts.put(genre, genreBorrowCounts.getOrDefault(genre, 0) + 1);
+        }
+
+
+        bookBorrowCounts.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10)
+                .forEach(entry -> mostBorrowedBooksModel.addRow(new Object[]{entry.getKey(), entry.getValue()}));
+
+        userBorrowCounts.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10)
+                .forEach(entry -> mostActiveUsersModel.addRow(new Object[]{entry.getKey(), entry.getValue()}));
+
+        genreBorrowCounts.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10)
+                .forEach(entry -> mostBorrowedCategoryModel.addRow(new Object[]{entry.getKey(), entry.getValue()}));
+    }
+
 
     public DefaultTableModel getUserTableModel() {
         return userTableModel;
@@ -405,5 +449,16 @@ public class BiblioView extends JFrame {
         return empruntAddUserNomField;
     }
 
+    public DefaultTableModel getMostActiveUsersModel() {
+        return mostActiveUsersModel;
+    }
+
+    public DefaultTableModel getMostBorrowedCategoryModel() {
+        return mostBorrowedCategoryModel;
+    }
+
+    public DefaultTableModel getMostBorrowedBooksModel() {
+        return mostBorrowedBooksModel;
+    }
 }
 
