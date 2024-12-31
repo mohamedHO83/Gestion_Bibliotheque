@@ -25,9 +25,11 @@ public class Retour {
     }
     public boolean setPenalite(){
         if(dateRetour.after(empruntretournee.getDateEmprunt())){
+            long diffInMillis = dateRetour.getTime() - empruntretournee.getDateRetourTheo().getTime();
+            long daysLate = diffInMillis / (1000 * 60 * 60 * 24);
+
             this.membreemprunteur.setPenalized(true);
-            System.out.println((2L *(dateRetour.compareTo(empruntretournee.getDateRetourTheo())) +"|"+ dateRetour+"|" +empruntretournee.getDateRetourTheo()));
-            this.membreemprunteur.setFinPenalite((Date.valueOf(LocalDate.now().plusDays(2L *(dateRetour.compareTo(empruntretournee.getDateRetourTheo()))))));
+            this.membreemprunteur.setFinPenalite(Date.valueOf(LocalDate.now().plusDays(2L * daysLate)));
             return true;
         }else{
             return false;
