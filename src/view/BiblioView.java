@@ -353,12 +353,13 @@ public class BiblioView extends JFrame {
         Map<String, Integer> genreCount = new HashMap<>();
         for (Emprunt em : EmpruntController.empruntList) {
             String bookGenre = em.getLivreEmprunte().getGenre();
-            borrowCounts.put(bookGenre, borrowCounts.getOrDefault(bookGenre, 0) + 1);
+            genreCount.put(bookGenre, genreCount.getOrDefault(bookGenre, 0) + 1); // Use genreCount here
         }
-        borrowCounts.entrySet().stream()
+        genreCount.entrySet().stream() // Use genreCount instead of borrowCounts
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .limit(10) // Limit to top 10 categories
                 .forEach(entry -> mostBorrowedCategoryModel.addRow(new Object[]{entry.getKey(), entry.getValue()}));
+
         JTable mostBorrowedBooksTable = new JTable(mostBorrowedBooksModel);
         JTable mostBorrowedCategoryTable = new JTable(mostBorrowedCategoryModel);
         JTable mostActiveUsersTable = new JTable(mostActiveUsersModel);
