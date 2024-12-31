@@ -319,7 +319,14 @@ public class BiblioView extends JFrame {
     }
     private void addComponentsStatistics() {
 // Create table models for statistics
+        DefaultTableModel mostBorrowedBooksModel = new DefaultTableModel(
+                new String[]{"Title", "Count"}, 0);
+        DefaultTableModel mostBorrowedCategoryModel = new DefaultTableModel(
+                new String[]{"Genre", "Count"}, 0);
+        DefaultTableModel mostActiveUsersModel = new DefaultTableModel(
+                new String[]{"Member", "Count"}, 0);
 
+        Map<String, Integer> borrowCounts = new HashMap<>();
         for (Emprunt em : EmpruntController.empruntList) {
             String bookTitle = em.getLivreEmprunte().getTitre();
             borrowCounts.put(bookTitle, borrowCounts.getOrDefault(bookTitle, 0) + 1);

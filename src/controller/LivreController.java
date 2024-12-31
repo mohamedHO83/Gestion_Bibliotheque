@@ -71,7 +71,7 @@ public class LivreController {
      *
      * @throws RuntimeException if there is an I/O error while writing to the file.
      */
-    public static void WriteLivreFile() {
+    public static void writeLivreFile() {
         try{
             BufferedWriter oos=new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"\\src\\Livres.csv"));
             for(Livre l:livreslist){

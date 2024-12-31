@@ -9,7 +9,7 @@ public class UserNotFoundException extends RuntimeException {
     }
     public UserNotFoundException(){}
     public Throwable message(Component x){
-        JOptionPane.showMessageDialog(x, "The specified user does not exist.");
+        JOptionPane.showMessageDialog(x, "The specified member does not exist.");
         return null;
     }
 }

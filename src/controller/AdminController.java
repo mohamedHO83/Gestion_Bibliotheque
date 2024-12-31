@@ -99,7 +99,7 @@ public class AdminController extends JFrame   {
                     nouveauLivre.getGenre(),
                     nouveauLivre.getNbCopies()
             });
-            LivreController.WriteLivreFile();
+            LivreController.writeLivreFile();
             dialog.dispose();
         });
     }
@@ -186,7 +186,7 @@ public class AdminController extends JFrame   {
             x.getBookTableModel().setValueAt(l.getAnneepub(), index, 3);
             x.getBookTableModel().setValueAt(l.getGenre(), index, 4);
             x.getBookTableModel().setValueAt(l.getNbCopies(), index, 5);
-            LivreController.WriteLivreFile();
+            LivreController.writeLivreFile();
             dialog.dispose();
         });
     }
@@ -202,7 +202,7 @@ public class AdminController extends JFrame   {
         if(choice==JOptionPane.YES_OPTION){
             LivreController.livreslist.remove(index);
             x.getBookTableModel().removeRow(index);
-            LivreController.WriteLivreFile();
+            LivreController.writeLivreFile();
         }
     }
 
@@ -402,14 +402,27 @@ public class AdminController extends JFrame   {
         Emprunt nouvelleEmprunt=new Emprunt();
         String bookIdText = x.getEmpruntAddBookNomField().getText();
         String userIdText = x.getEmpruntAddUserNomField().getText();
-        Livre livre = LivreController.findBook(Integer.parseInt(bookIdText));
-        Membre membre = MembreController.findMember(Integer.parseInt(userIdText));
+        Livre livre =new Livre();
+        try{
+            livre= LivreController.findBook(Integer.parseInt(bookIdText));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(x,"Please enter the book id");
+            return;
+        }
+        Membre membre =new Membre();
+        try{
+            membre=MembreController.findMember(Integer.parseInt(userIdText));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(x,"Please enter the member id");
+            return;
+        }
 
         if (livre == null) {
             try {
                 throw new BookNotFoundException().message(x);
             } catch (Throwable e) {
                 throw new RuntimeException(e);
+
             }
         }
         if (membre == null) {
@@ -518,6 +531,7 @@ public class AdminController extends JFrame   {
                         nouvelleEmprunt.getDateEmprunt(),
                         nouvelleEmprunt.getDateRetourTheo()
                 });
+                LivreController.writeLivreFile();
                 EmpruntController.writeEmpruntFile();
                 dialog.dispose();
             }
@@ -558,7 +572,7 @@ public class AdminController extends JFrame   {
         returned.setMembreemprunteur(emprunteur);
         returned.setDateRetour(Date.valueOf(LocalDate.now()));
         if(returned.setPenalite()){
-            JOptionPane.showMessageDialog(x,"This book has been returne late, a penalty has been applied untill "+emprunteur.getFinPenalite());
+            JOptionPane.showMessageDialog(x,"This book has been returne late, a penalty has been applied");
         }
         RetourController.retourList.add(returned);
         EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0)).setReturned(true);
