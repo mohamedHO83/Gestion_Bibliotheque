@@ -10,7 +10,7 @@ import java.sql.Date;
  *   @author Mohammed
  */
 public class Membre extends User {
-    private boolean penalized=false;
+    private boolean penalized;
     private Date finPenalite;
 
     /**
@@ -49,10 +49,15 @@ public class Membre extends User {
      */
     public Membre(int uid, String lastName, String firstName, String password, int age, String adresse){
         super(lastName,firstName,password,age,adresse);
+        penalized=false;
+        finPenalite=null;
     }
     public String getFullName(){
         return this.lastName+" "+this.firstName;
     }
 
-
+    @Override
+    public String toString() {
+        return  super.toString() + "," + penalized + "," + finPenalite ;
+    }
 }

@@ -1,3 +1,5 @@
+import controller.MembreController;
+import module.Membre;
 import view.*;
 
 public class Main {

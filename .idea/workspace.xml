@@ -4,18 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/junit_jupiter.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/module/EmpruntTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/module/LivreTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/module/MembreTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/module/UserTest.java" afterDir="false" />
+    <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="added exceptions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjetJava.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetJava.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Emprunts.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Emprunts.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Livres.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Livres.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Membres.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Membres.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Retours.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Retours.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/LivreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/LivreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/MembreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/MembreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/BookNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/BookNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/CopiesException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/CopiesException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/FieldNotFilledException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/FieldNotFilledException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/LoanNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/LoanNotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/exceptions/UserNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/UserNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module/Membre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Membre.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module/Retour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Retour.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/BiblioView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +72,7 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/ibrah/OneDrive/Bureau/ProjetJava&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
@@ -88,7 +93,7 @@
       <recent name="controller" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.LivreTest">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ProjetJava" />
@@ -159,8 +164,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LivreTest" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.LivreTest" />
         <item itemvalue="JUnit.UserTest" />
         <item itemvalue="JUnit.MembreTest" />
         <item itemvalue="JUnit.LivreTest.testEquals" />
@@ -192,7 +197,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735489660600</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="added exceptions">
+      <option name="closed" value="true" />
+      <created>1735650947474</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1735650947474</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -221,7 +234,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="3awed jreb" />
     <MESSAGE value="integration de la page statistique" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="added exceptions" />
+    <option name="LAST_COMMIT_MESSAGE" value="added exceptions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

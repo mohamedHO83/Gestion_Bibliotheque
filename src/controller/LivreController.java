@@ -33,6 +33,14 @@ public class LivreController {
         }
         return null;
     }
+    public static Livre findBook(String title){
+        for(Livre l:livreslist){
+            if(l.getTitre().equals(title)){
+                return l;
+            }
+        }
+        return null;
+    }
 
     /**
      * Reads the list of books from a CSV file and populates {@link #livreslist}.

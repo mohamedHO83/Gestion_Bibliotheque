@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  * AdminController is responsible for managing the administrative actions
@@ -30,6 +31,7 @@ public class AdminController extends JFrame   {
         JButton submit = new JButton("Submit");
 
         JDialog dialog = new JDialog(x);
+        dialog.setTitle("New Book");
         dialog.setLayout(new BorderLayout());
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
@@ -121,6 +123,7 @@ public class AdminController extends JFrame   {
         JButton submit = new JButton("Submit");
 
         JDialog dialog = new JDialog(x);
+        dialog.setTitle("Modify Book");
         dialog.setLayout(new BorderLayout());
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
@@ -198,7 +201,7 @@ public class AdminController extends JFrame   {
      */
     public static void supprimerLivre(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a book");return;}
-        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this book?");
+        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this book?","Delete Book",JOptionPane.YES_NO_CANCEL_OPTION);
         if(choice==JOptionPane.YES_OPTION){
             LivreController.livreslist.remove(index);
             x.getBookTableModel().removeRow(index);
@@ -222,6 +225,7 @@ public class AdminController extends JFrame   {
         JButton submit = new JButton("Submit");
 
         JDialog dialog = new JDialog(x);
+        dialog.setTitle("New Member");
         dialog.setLayout(new BorderLayout());
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
@@ -312,6 +316,7 @@ public class AdminController extends JFrame   {
         JButton submit = new JButton("Submit");
 
         JDialog dialog = new JDialog(x);
+        dialog.setTitle("Modify Member");
         dialog.setLayout(new BorderLayout());
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
@@ -390,8 +395,8 @@ public class AdminController extends JFrame   {
      * @param index the index of the selected book in the data model
      */
     public static void supprimerMembre(BiblioView x,int index){
-        if(index<0){JOptionPane.showMessageDialog(x,"Please select a member");return;}
-        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this member?");
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a member","Delete Member",JOptionPane.ERROR_MESSAGE);return;}
+        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this member?","Delete Member",JOptionPane.YES_NO_CANCEL_OPTION);
         if(choice==JOptionPane.YES_OPTION){
             MembreController.membersList.remove(index);
             x.getUserTableModel().removeRow(index);
@@ -402,18 +407,18 @@ public class AdminController extends JFrame   {
         Emprunt nouvelleEmprunt=new Emprunt();
         String bookIdText = x.getEmpruntAddBookNomField().getText();
         String userIdText = x.getEmpruntAddUserNomField().getText();
-        Livre livre =new Livre();
+        Livre livre ;
         try{
             livre= LivreController.findBook(Integer.parseInt(bookIdText));
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(x,"Please enter the book id");
+            JOptionPane.showMessageDialog(x,"Please enter the book id","Loan Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        Membre membre =new Membre();
+        Membre membre ;
         try{
             membre=MembreController.findMember(Integer.parseInt(userIdText));
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(x,"Please enter the member id");
+            JOptionPane.showMessageDialog(x,"Please enter the member id","Loan Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -432,7 +437,9 @@ public class AdminController extends JFrame   {
                 throw new RuntimeException(e);
             }
         }
-
+        if(membre.isPenalized()){
+            JOptionPane.showMessageDialog(x,"This member can not loan a book untill "+membre.getFinPenalite(),"Penalized Member",JOptionPane.ERROR_MESSAGE);
+        }
         if (livre.getNbCopies() == 0) {
             try{
                 throw new CopiesException().message(x);
@@ -458,8 +465,8 @@ public class AdminController extends JFrame   {
 
         x.getEmpruntTableModel().addRow(new Object[]{
                 nouvelleEmprunt.getIdE(),
-                nouvelleEmprunt.getLivreEmprunte().getidBook(),
-                nouvelleEmprunt.getEmprunteur().getUid(),
+                nouvelleEmprunt.getLivreEmprunte().getTitre(),
+                nouvelleEmprunt.getEmprunteur().getFullName(),
                 nouvelleEmprunt.getDateEmprunt(),
                 nouvelleEmprunt.getDateRetourTheo()
         });
@@ -491,6 +498,7 @@ public class AdminController extends JFrame   {
         inputPanel.add(new JLabel("Member ID: "));
         inputPanel.add(memberId);
 
+        dialog.setTitle("New Loan");
         dialog.add(inputPanel, BorderLayout.CENTER);
         dialog.add(submit, BorderLayout.SOUTH);
 
@@ -508,7 +516,6 @@ public class AdminController extends JFrame   {
                     throw new RuntimeException(e);
                 }
             } else {
-                nouvelleEmprunt.setLivreEmprunte(livre);
                 Membre emprunteur=MembreController.findMember(Integer.parseInt(memberId.getText()));
                 if(emprunteur==null){
                     try{
@@ -517,6 +524,10 @@ public class AdminController extends JFrame   {
                         throw new RuntimeException(e);
                     }
                 }
+                if(emprunteur.isPenalized()){
+                    JOptionPane.showMessageDialog(x,"This member can not loan a book untill "+emprunteur.getFinPenalite(),"Penalized Member",JOptionPane.ERROR_MESSAGE);
+                }
+                nouvelleEmprunt.setLivreEmprunte(livre);
                 nouvelleEmprunt.setEmprunteur(emprunteur);
                 nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
                 nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
@@ -526,22 +537,22 @@ public class AdminController extends JFrame   {
                 x.getBookTableModel().setValueAt(livre.getNbCopies(), index, 5);
                 x.getEmpruntTableModel().addRow(new Object[]{
                         nouvelleEmprunt.getIdE(),
-                        livre.getidBook(),
-                        nouvelleEmprunt.getEmprunteur().getUid(),
+                        nouvelleEmprunt.getLivreEmprunte().getTitre(),
+                        nouvelleEmprunt.getEmprunteur().getFullName(),
                         nouvelleEmprunt.getDateEmprunt(),
                         nouvelleEmprunt.getDateRetourTheo()
                 });
                 LivreController.writeLivreFile();
                 EmpruntController.writeEmpruntFile();
                 dialog.dispose();
-            }
             x.updateStatistics();
+            }
         });
         dialog.setVisible(true);
     }
 
     public static void returnBook(BiblioView x, int index){
-        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan","Return Error",JOptionPane.ERROR_MESSAGE);return;}
         Retour returned=new Retour();
         Emprunt emprunt=EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0));
         if(emprunt==null){
@@ -552,7 +563,7 @@ public class AdminController extends JFrame   {
             }
         }
         returned.setEmpruntretournee(emprunt);
-        Livre empruntee=LivreController.findBook((int)x.getEmpruntTableModel().getValueAt(index,1));
+        Livre empruntee=LivreController.findBook((String)x.getEmpruntTableModel().getValueAt(index,1));
         if(empruntee==null){
             try{
                 throw new BookNotFoundException().message(x);
@@ -561,7 +572,7 @@ public class AdminController extends JFrame   {
             }
         }
         returned.setLivreretourne(empruntee);
-        Membre emprunteur =MembreController.findMember((int) x.getEmpruntTableModel().getValueAt(index,2));
+        Membre emprunteur =MembreController.findMember((String) x.getEmpruntTableModel().getValueAt(index,2));
         if(emprunteur==null){
             try{
                 throw new UserNotFoundException().message(x);
@@ -572,20 +583,44 @@ public class AdminController extends JFrame   {
         returned.setMembreemprunteur(emprunteur);
         returned.setDateRetour(Date.valueOf(LocalDate.now()));
         if(returned.setPenalite()){
-            JOptionPane.showMessageDialog(x,"This book has been returne late, a penalty has been applied");
+            JOptionPane.showMessageDialog(x,"This book has been returne late, a penalty has been applied","Penalty applied",JOptionPane.WARNING_MESSAGE);
         }
         RetourController.retourList.add(returned);
-        EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0)).setReturned(true);
+        Objects.requireNonNull(EmpruntController.findEmprunt((int) x.getEmpruntTableModel().getValueAt(index, 0))).setReturned(true);
         RetourController.writeRetourFile();
         EmpruntController.writeEmpruntFile();
+        MembreController.WriteMemberFile();
+        LivreController.writeLivreFile();
         returned.getLivreretourne().setNbCopies(returned.getLivreretourne().getNbCopies()+1);
         x.getReturnTableModel().addRow(new Object[]{
                 returned.getIdRetour(),
                 returned.getEmpruntretournee().getIdE(),
-                returned.getLivreretourne().getidBook(),
-                returned.getMembreemprunteur().getUid(),
+                returned.getLivreretourne().getTitre(),
+                returned.getMembreemprunteur().getFullName(),
                 returned.getDateRetour()
         });
         x.getEmpruntTableModel().removeRow(index);
+        x.getUserTableModel().setRowCount(0);
+        for (Membre m : MembreController.membersList) {
+            if(!m.isPenalized())
+                x.getUserTableModel().addRow(new Object[]{
+                        m.getUid(),
+                        m.getLastName(),
+                        m.getFirstName(),
+                        m.getPassword(),
+                        m.getAge(),
+                        m.getAdresse()
+                });
+            else
+                x.getUserTableModel().addRow(new Object[]{
+                        m.getUid(),
+                        m.getLastName(),
+                        m.getFirstName(),
+                        m.getPassword(),
+                        m.getAge(),
+                        m.getAdresse(),
+                        m.getFinPenalite()
+                });
+        }
     }
 }
