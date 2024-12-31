@@ -4,12 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/junit_jupiter.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/module/EmpruntTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/module/LivreTest.java" afterDir="false" />
+    <list default="true" id="d72ccfe0-828e-4b54-b4e5-aa3160dd9dc5" name="Changes" comment="added exceptions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjetJava.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetJava.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Emprunts.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Emprunts.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Livres.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Livres.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Membres.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Membres.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Retours.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Retours.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/LivreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/LivreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/MembreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/MembreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/BookNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/BookNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/CopiesException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/CopiesException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/FieldNotFilledException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/FieldNotFilledException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/LoanNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/LoanNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/UserNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/UserNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module/Membre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Membre.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module/Retour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module/Retour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/BiblioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/BiblioView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,42 +55,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.EmpruntTest.executor": "Run",
-    "JUnit.LivreTest.executor": "Run",
-    "JUnit.LivreTest.testEquals.executor": "Run",
-    "JUnit.LivreTest.testToString.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "create.test.in.the.same.root": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ibrah/OneDrive/Bureau/ProjetJava",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "Errors"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.EmpruntTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LivreTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LivreTest.testEquals.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LivreTest.testToString.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ibrah/OneDrive/Bureau/ProjetJava&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ibrah\OneDrive\Bureau\Gestion_Biblio\Gestion_Bibliotheque\src\exceptions" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="module" />
       <recent name="controller" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserTest">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ProjetJava" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="LivreTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ProjetJava" />
       <extension name="coverage">
@@ -105,22 +127,6 @@
       <option name="PACKAGE_NAME" value="module" />
       <option name="MAIN_CLASS_NAME" value="module.LivreTest" />
       <option name="METHOD_NAME" value="testEquals" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LivreTest.testToString" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ProjetJava" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="module.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="module" />
-      <option name="MAIN_CLASS_NAME" value="module.LivreTest" />
-      <option name="METHOD_NAME" value="testToString" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -158,11 +164,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.LivreTest" />
         <item itemvalue="JUnit.UserTest" />
         <item itemvalue="JUnit.MembreTest" />
-        <item itemvalue="JUnit.LivreTest" />
         <item itemvalue="JUnit.LivreTest.testEquals" />
-        <item itemvalue="JUnit.LivreTest.testToString" />
       </list>
     </recent_temporary>
   </component>
@@ -191,7 +197,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735489660600</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="added exceptions">
+      <option name="closed" value="true" />
+      <created>1735650947474</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1735650947474</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -220,7 +234,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="3awed jreb" />
     <MESSAGE value="integration de la page statistique" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="added exceptions" />
+    <option name="LAST_COMMIT_MESSAGE" value="added exceptions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

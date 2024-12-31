@@ -1,10 +1,12 @@
 package controller;
+import exceptions.*;
 import module.*;
 import view.*;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  * AdminController is responsible for managing the administrative actions
@@ -29,26 +31,62 @@ public class AdminController extends JFrame   {
         JButton submit = new JButton("Submit");
 
         JDialog dialog = new JDialog(x);
+        dialog.setTitle("New Book");
         dialog.setLayout(new BorderLayout());
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
 
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
-        inputPanel.add(new JLabel("Titre: "));
+        inputPanel.add(new JLabel("Title: "));
         inputPanel.add(titre);
-        inputPanel.add(new JLabel("Autheur: "));
+        inputPanel.add(new JLabel("Author: "));
         inputPanel.add(autheur);
-        inputPanel.add(new JLabel("Année de publication: "));
+        inputPanel.add(new JLabel("Year of Publication: "));
         inputPanel.add(annee);
         inputPanel.add(new JLabel("Genre: "));
         inputPanel.add(genre);
-        inputPanel.add(new JLabel("Nombre de copies: "));
+        inputPanel.add(new JLabel("Number of Copies: "));
         inputPanel.add(nbCopies);
 
         dialog.add(inputPanel, BorderLayout.CENTER);
         dialog.add(submit, BorderLayout.SOUTH);
         dialog.setVisible(true);
         submit.addActionListener(event->{
+            if(titre.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Title'").message(dialog);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(autheur.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Author'").message(dialog);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(annee.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Year of Publication'").message(dialog);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(genre.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Genre'").message(dialog);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(nbCopies.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Number of Copies'").message(dialog);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            }
             nouveauLivre.setTitre(titre.getText());
             nouveauLivre.setAuteur(autheur.getText());
             nouveauLivre.setAnneepub(Integer.parseInt(annee.getText()));
@@ -63,7 +101,7 @@ public class AdminController extends JFrame   {
                     nouveauLivre.getGenre(),
                     nouveauLivre.getNbCopies()
             });
-            LivreController.WriteLivreFile();
+            LivreController.writeLivreFile();
             dialog.dispose();
         });
     }
@@ -85,38 +123,73 @@ public class AdminController extends JFrame   {
         JButton submit = new JButton("Submit");
 
         JDialog dialog = new JDialog(x);
+        dialog.setTitle("Modify Book");
         dialog.setLayout(new BorderLayout());
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
 
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
-        inputPanel.add(new JLabel("Titre: "));
+        inputPanel.add(new JLabel("Title: "));
         inputPanel.add(titre);
-        inputPanel.add(new JLabel("Autheur: "));
+        inputPanel.add(new JLabel("Author: "));
         inputPanel.add(autheur);
-        inputPanel.add(new JLabel("Année de publication: "));
+        inputPanel.add(new JLabel("Year of Publication: "));
         inputPanel.add(annee);
         inputPanel.add(new JLabel("Genre: "));
         inputPanel.add(genre);
-        inputPanel.add(new JLabel("Nombre de copies: "));
+        inputPanel.add(new JLabel("Number of Copies: "));
         inputPanel.add(nbCopies);
 
         dialog.add(inputPanel, BorderLayout.CENTER);
         dialog.add(submit, BorderLayout.SOUTH);
         dialog.setVisible(true);
         submit.addActionListener(e -> {
+            if(titre.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Title'").message(dialog);
+                } catch (Throwable er) {
+                    throw new RuntimeException(er);
+                }
+            }
+            if(autheur.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Author'").message(dialog);
+                } catch (Throwable er) {
+                    throw new RuntimeException(er);
+                }
+            }
+            if(annee.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Year of Publication'").message(dialog);
+                } catch (Throwable er) {
+                    throw new RuntimeException(er);
+                }
+            }
+            if(genre.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Genre'").message(dialog);
+                } catch (Throwable er) {
+                    throw new RuntimeException(er);
+                }
+            }
+            if(nbCopies.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Number of Copies'").message(dialog);
+                } catch (Throwable er) {
+                    throw new RuntimeException(er);
+                }
+            }
             l.setTitre(titre.getText());
             l.setAuteur(autheur.getText());
             l.setAnneepub(Integer.parseInt(annee.getText()));
             l.setGenre(genre.getText());
             l.setNbCopies(Integer.parseInt(nbCopies.getText()));
-            String s = l.getTitre();
             x.getBookTableModel().setValueAt(l.getTitre(), index, 1);
             x.getBookTableModel().setValueAt(l.getAuteur(), index, 2);
             x.getBookTableModel().setValueAt(l.getAnneepub(), index, 3);
             x.getBookTableModel().setValueAt(l.getGenre(), index, 4);
             x.getBookTableModel().setValueAt(l.getNbCopies(), index, 5);
-            LivreController.WriteLivreFile();
+            LivreController.writeLivreFile();
             dialog.dispose();
         });
     }
@@ -128,11 +201,11 @@ public class AdminController extends JFrame   {
      */
     public static void supprimerLivre(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a book");return;}
-        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this book?");
+        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this book?","Delete Book",JOptionPane.YES_NO_CANCEL_OPTION);
         if(choice==JOptionPane.YES_OPTION){
             LivreController.livreslist.remove(index);
             x.getBookTableModel().removeRow(index);
-            LivreController.WriteLivreFile();
+            LivreController.writeLivreFile();
         }
     }
 
@@ -152,6 +225,7 @@ public class AdminController extends JFrame   {
         JButton submit = new JButton("Submit");
 
         JDialog dialog = new JDialog(x);
+        dialog.setTitle("New Member");
         dialog.setLayout(new BorderLayout());
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
@@ -172,6 +246,41 @@ public class AdminController extends JFrame   {
         dialog.add(submit, BorderLayout.SOUTH);
         dialog.setVisible(true);
         submit.addActionListener(e-> {
+            if(lastName.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Title'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
+            if(firstName.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Author'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
+            if(password.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Year of Publication'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
+            if(age.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Genre'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
+            if(address.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Number of Copies'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
             nouveauMembre.setLastName(lastName.getText());
             nouveauMembre.setFirstName(firstName.getText());
             nouveauMembre.setPassword(password.getText());
@@ -207,6 +316,7 @@ public class AdminController extends JFrame   {
         JButton submit = new JButton("Submit");
 
         JDialog dialog = new JDialog(x);
+        dialog.setTitle("Modify Member");
         dialog.setLayout(new BorderLayout());
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
@@ -228,6 +338,41 @@ public class AdminController extends JFrame   {
 
         dialog.setVisible(true);
         submit.addActionListener(e -> {
+            if(lastName.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Title'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
+            if(firstName.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Author'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
+            if(password.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Year of Publication'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
+            if(age.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Genre'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
+            if(address.getText().isEmpty()){
+                try {
+                    throw new FieldNotFilledException("'Number of Copies'").message(dialog);
+                } catch (Throwable err) {
+                    throw new RuntimeException(err);
+                }
+            }
             m.setLastName(lastName.getText());
             m.setFirstName(firstName.getText());
             m.setAge(Integer.parseInt(age.getText()));
@@ -250,8 +395,8 @@ public class AdminController extends JFrame   {
      * @param index the index of the selected book in the data model
      */
     public static void supprimerMembre(BiblioView x,int index){
-        if(index<0){JOptionPane.showMessageDialog(x,"Please select a member");return;}
-        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this member?");
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a member","Delete Member",JOptionPane.ERROR_MESSAGE);return;}
+        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this member?","Delete Member",JOptionPane.YES_NO_CANCEL_OPTION);
         if(choice==JOptionPane.YES_OPTION){
             MembreController.membersList.remove(index);
             x.getUserTableModel().removeRow(index);
@@ -262,21 +407,45 @@ public class AdminController extends JFrame   {
         Emprunt nouvelleEmprunt=new Emprunt();
         String bookIdText = x.getEmpruntAddBookNomField().getText();
         String userIdText = x.getEmpruntAddUserNomField().getText();
-        Livre livre = LivreController.findBook(Integer.parseInt(bookIdText));
-        Membre membre = MembreController.findMember(Integer.parseInt(userIdText));
+        Livre livre ;
+        try{
+            livre= LivreController.findBook(Integer.parseInt(bookIdText));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(x,"Please enter the book id","Loan Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Membre membre ;
+        try{
+            membre=MembreController.findMember(Integer.parseInt(userIdText));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(x,"Please enter the member id","Loan Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         if (livre == null) {
-            JOptionPane.showMessageDialog(x, "The specified book does not exist.");
-            return;
+            try {
+                throw new BookNotFoundException().message(x);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+
+            }
         }
         if (membre == null) {
-            JOptionPane.showMessageDialog(x, "The specified user does not exist.");
-            return;
+            try{
+                throw new UserNotFoundException().message(x);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
         }
-
+        if(membre.isPenalized()){
+            JOptionPane.showMessageDialog(x,"This member can not loan a book untill "+membre.getFinPenalite(),"Penalized Member",JOptionPane.ERROR_MESSAGE);
+        }
         if (livre.getNbCopies() == 0) {
-            JOptionPane.showMessageDialog(x, "No copies available for this book.");
-            return;
+            try{
+                throw new CopiesException().message(x);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
         }
         livre.setNbCopies(livre.getNbCopies() - 1);
         //ismail
@@ -295,11 +464,11 @@ public class AdminController extends JFrame   {
         }
 
         x.getEmpruntTableModel().addRow(new Object[]{
-        nouvelleEmprunt.getIdE(),
-        nouvelleEmprunt.getLivreEmprunte().getidBook(),
-        nouvelleEmprunt.getEmprunteur().getUid(),
-        nouvelleEmprunt.getDateEmprunt(),
-        nouvelleEmprunt.getDateRetourTheo()
+                nouvelleEmprunt.getIdE(),
+                nouvelleEmprunt.getLivreEmprunte().getTitre(),
+                nouvelleEmprunt.getEmprunteur().getFullName(),
+                nouvelleEmprunt.getDateEmprunt(),
+                nouvelleEmprunt.getDateRetourTheo()
         });
         EmpruntController.writeEmpruntFile();
 
@@ -308,7 +477,13 @@ public class AdminController extends JFrame   {
     public static void borrowBook(BiblioView x, int index) {
         Emprunt nouvelleEmprunt = new Emprunt();
         Livre livre = LivreController.livreslist.get(index);
-
+        if(livre==null){
+            try{
+                throw new BookNotFoundException().message(x);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        }
         JTextField memberId = new JTextField(10);
         JButton submit = new JButton("Submit");
 
@@ -323,15 +498,37 @@ public class AdminController extends JFrame   {
         inputPanel.add(new JLabel("Member ID: "));
         inputPanel.add(memberId);
 
+        dialog.setTitle("New Loan");
         dialog.add(inputPanel, BorderLayout.CENTER);
         dialog.add(submit, BorderLayout.SOUTH);
 
         submit.addActionListener(event -> {
             if (livre.getNbCopies() == 0) {
-                JOptionPane.showMessageDialog(dialog, "No copies available for this book.");
+                try {
+                    throw new CopiesException().message(dialog);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            } else if(memberId.getText().isEmpty()){
+                try{
+                    throw  new FieldNotFilledException("'Member Id'").message(dialog);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
             } else {
+                Membre emprunteur=MembreController.findMember(Integer.parseInt(memberId.getText()));
+                if(emprunteur==null){
+                    try{
+                        throw new UserNotFoundException().message(dialog);
+                    } catch (Throwable e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if(emprunteur.isPenalized()){
+                    JOptionPane.showMessageDialog(x,"This member can not loan a book untill "+emprunteur.getFinPenalite(),"Penalized Member",JOptionPane.ERROR_MESSAGE);
+                }
                 nouvelleEmprunt.setLivreEmprunte(livre);
-                nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
+                nouvelleEmprunt.setEmprunteur(emprunteur);
                 nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
                 nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
                 EmpruntController.empruntList.add(nouvelleEmprunt);
@@ -340,91 +537,90 @@ public class AdminController extends JFrame   {
                 x.getBookTableModel().setValueAt(livre.getNbCopies(), index, 5);
                 x.getEmpruntTableModel().addRow(new Object[]{
                         nouvelleEmprunt.getIdE(),
-                        livre.getidBook(),
-                        nouvelleEmprunt.getEmprunteur().getUid(),
+                        nouvelleEmprunt.getLivreEmprunte().getTitre(),
+                        nouvelleEmprunt.getEmprunteur().getFullName(),
                         nouvelleEmprunt.getDateEmprunt(),
                         nouvelleEmprunt.getDateRetourTheo()
                 });
+                LivreController.writeLivreFile();
                 EmpruntController.writeEmpruntFile();
                 dialog.dispose();
+            x.updateStatistics();
             }
-        x.updateStatistics();
         });
-
         dialog.setVisible(true);
     }
-    public static void modifierEmprunt(BiblioView x,int index){
-        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
-        Emprunt em = EmpruntController.empruntList.get(index);
-        JTextField bookId = new JTextField(Integer.toString(em.getLivreEmprunte().getidBook()), 10);
-        JTextField memberId = new JTextField(Integer.toString(em.getEmprunteur().getUid()), 10);
-        JTextField dateEmprunt = new JTextField(em.getDateEmprunt().toString(), 10);
-        JTextField dateRetourTheo = new JTextField(em.getDateRetourTheo().toString(), 10);
-        JButton submit = new JButton("Submit");
 
-        JDialog dialog = new JDialog(x);
-        dialog.setLayout(new BorderLayout());
-        dialog.setSize(400, 300);
-        dialog.setLocationRelativeTo(null);
-
-        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 10, 10));
-        inputPanel.add(new JLabel("Book ID: "));
-        inputPanel.add(bookId);
-        inputPanel.add(new JLabel("Member ID: "));
-        inputPanel.add(memberId);
-        inputPanel.add(new JLabel("Loan Date: "));
-        inputPanel.add(dateEmprunt);
-        inputPanel.add(new JLabel("Return Date: "));
-        inputPanel.add(dateRetourTheo);
-
-        dialog.add(inputPanel, BorderLayout.CENTER);
-        dialog.add(submit, BorderLayout.SOUTH);
-        dialog.setVisible(true);
-        submit.addActionListener(e -> {
-            em.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
-            em.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
-            em.setDateEmprunt(Date.valueOf(LocalDate.now()));
-            em.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
-            x.getEmpruntTableModel().setValueAt(em.getLivreEmprunte().getidBook(), index, 1);
-            x.getEmpruntTableModel().setValueAt(em.getEmprunteur().getUid(), index, 2);
-            x.getEmpruntTableModel().setValueAt(em.getDateEmprunt(), index, 3);
-            x.getBookTableModel().setValueAt(em.getDateRetourTheo(), index, 4);
-            EmpruntController.writeEmpruntFile();
-            dialog.dispose();
-        });
-    }
-
-    public static void supprimerEmprunt(BiblioView x,int index){
-        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
-        int choice=JOptionPane.showConfirmDialog(x,"Are you sure you want to delete this loan?");
-        if(choice==JOptionPane.YES_OPTION){
-            EmpruntController.empruntList.remove(index);
-            x.getEmpruntTableModel().removeRow(index);
-            EmpruntController.writeEmpruntFile();
-        }
-    }
     public static void returnBook(BiblioView x, int index){
-        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
+        if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan","Return Error",JOptionPane.ERROR_MESSAGE);return;}
         Retour returned=new Retour();
-        returned.setEmpruntretournee(EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0)));
-        returned.setLivreretourne(LivreController.findBook((int)x.getEmpruntTableModel().getValueAt(index,1)));
-        returned.setMembreemprunteur(MembreController.findMember((int) x.getEmpruntTableModel().getValueAt(index,2)));
+        Emprunt emprunt=EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0));
+        if(emprunt==null){
+            try{
+                throw new LoanNotFoundException().message(x);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        }
+        returned.setEmpruntretournee(emprunt);
+        Livre empruntee=LivreController.findBook((String)x.getEmpruntTableModel().getValueAt(index,1));
+        if(empruntee==null){
+            try{
+                throw new BookNotFoundException().message(x);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        }
+        returned.setLivreretourne(empruntee);
+        Membre emprunteur =MembreController.findMember((String) x.getEmpruntTableModel().getValueAt(index,2));
+        if(emprunteur==null){
+            try{
+                throw new UserNotFoundException().message(x);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        }
+        returned.setMembreemprunteur(emprunteur);
         returned.setDateRetour(Date.valueOf(LocalDate.now()));
         if(returned.setPenalite()){
-            JOptionPane.showMessageDialog(x,"This book has been returne late, a penalty has been applied");
+            JOptionPane.showMessageDialog(x,"This book has been returne late, a penalty has been applied","Penalty applied",JOptionPane.WARNING_MESSAGE);
         }
         RetourController.retourList.add(returned);
-        EmpruntController.findEmprunt((int)x.getEmpruntTableModel().getValueAt(index,0)).setReturned(true);
+        Objects.requireNonNull(EmpruntController.findEmprunt((int) x.getEmpruntTableModel().getValueAt(index, 0))).setReturned(true);
         RetourController.writeRetourFile();
         EmpruntController.writeEmpruntFile();
+        MembreController.WriteMemberFile();
+        LivreController.writeLivreFile();
         returned.getLivreretourne().setNbCopies(returned.getLivreretourne().getNbCopies()+1);
         x.getReturnTableModel().addRow(new Object[]{
                 returned.getIdRetour(),
                 returned.getEmpruntretournee().getIdE(),
-                returned.getLivreretourne().getidBook(),
-                returned.getMembreemprunteur().getUid(),
+                returned.getLivreretourne().getTitre(),
+                returned.getMembreemprunteur().getFullName(),
                 returned.getDateRetour()
         });
         x.getEmpruntTableModel().removeRow(index);
+        x.getUserTableModel().setRowCount(0);
+        for (Membre m : MembreController.membersList) {
+            if(!m.isPenalized())
+                x.getUserTableModel().addRow(new Object[]{
+                        m.getUid(),
+                        m.getLastName(),
+                        m.getFirstName(),
+                        m.getPassword(),
+                        m.getAge(),
+                        m.getAdresse()
+                });
+            else
+                x.getUserTableModel().addRow(new Object[]{
+                        m.getUid(),
+                        m.getLastName(),
+                        m.getFirstName(),
+                        m.getPassword(),
+                        m.getAge(),
+                        m.getAdresse(),
+                        m.getFinPenalite()
+                });
+        }
     }
 }

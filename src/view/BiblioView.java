@@ -28,7 +28,7 @@ public class BiblioView extends JFrame {
     JButton userModifyButton = new JButton("Modify");
     JButton userDeleteButton = new JButton("Delete");
     DefaultTableModel userTableModel = new DefaultTableModel(
-            new String[]{"Member Id", "Last Name", "First Name","Password", "Age", "Adress"}, 0
+            new String[]{"Member Id", "Last Name", "First Name","Password", "Age", "Adress","Penalty End"}, 0
     );
     JTable userTable = new JTable(userTableModel);
     JLabel userSearchLabel = new JLabel("Search : ");
@@ -53,12 +53,12 @@ public class BiblioView extends JFrame {
     JButton    empruntAddButton = new JButton("New Loan");
     JButton empruntRetourButton = new JButton("return");
     DefaultTableModel empruntTableModel = new DefaultTableModel(
-            new String[]{"Loan Id", "Book Id", "Member Id","Loan Date", "Supposed Return Date"}, 0);
+            new String[]{"Loan Id", "Book Title", "Member Name","Loan Date", "Supposed Return Date"}, 0);
     JTable empruntTable = new JTable(empruntTableModel);
     JLabel empruntSearchLabel = new JLabel("Search : ");
     JTextField empruntSearchField = new JTextField(20);
     DefaultTableModel returnTableModel = new DefaultTableModel(
-            new String[]{"return Id","Loan Id","Book Id", "Member Id","Actual Return Date"}, 0);
+            new String[]{"return Id","Loan Id","Book Title", "Member Name","Actual Return Date"}, 0);
     JTable returnTable = new JTable(returnTableModel);
 
     // statistics section
@@ -110,7 +110,7 @@ public class BiblioView extends JFrame {
                 typed = typed.trim();
                 TableRowSorter<TableModel> sorter=new TableRowSorter<>(bookTableModel);
                 bookTable.setRowSorter(sorter);
-                if(typed.length()==0){
+                if(typed.isEmpty()){
                     sorter.setRowFilter(null);
                 }else{
                     sorter.setRowFilter(RowFilter.regexFilter("(?i)"+typed));
@@ -124,7 +124,7 @@ public class BiblioView extends JFrame {
                 typed = typed.trim();
                 TableRowSorter<TableModel> sorter=new TableRowSorter<>(userTableModel);
                 userTable.setRowSorter(sorter);
-                if(typed.length()==0){
+                if(typed.isEmpty()){
                     sorter.setRowFilter(null);
                 }else{
                     sorter.setRowFilter(RowFilter.regexFilter("(?i)"+typed));
@@ -134,14 +134,14 @@ public class BiblioView extends JFrame {
         empruntSearchField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                String typed = empruntSearchField.getText()+e.getKeyChar();
-                typed = typed.trim();
+                String emprunttyped = empruntSearchField.getText()+e.getKeyChar();
+                emprunttyped = emprunttyped.trim();
                 TableRowSorter<TableModel> sorter=new TableRowSorter<>(empruntTableModel);
-                userTable.setRowSorter(sorter);
-                if(typed.length()==0){
+                empruntTable.setRowSorter(sorter);
+                if(emprunttyped.isEmpty()){
                     sorter.setRowFilter(null);
                 }else{
-                    sorter.setRowFilter(RowFilter.regexFilter("(?i)"+typed));
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)"+emprunttyped));
                 }
             }
         });
@@ -169,14 +169,25 @@ public class BiblioView extends JFrame {
      */
     public void addComponentsUser() {
         for (Membre m : MembreController.membersList) {
-            userTableModel.addRow(new Object[]{
-                    m.getUid(),
-                    m.getLastName(),
-                    m.getFirstName(),
-                    m.getPassword(),
-                    m.getAge(),
-                    m.getAdresse()
-            });
+            if(!m.isPenalized())
+                userTableModel.addRow(new Object[]{
+                        m.getUid(),
+                        m.getLastName(),
+                        m.getFirstName(),
+                        m.getPassword(),
+                        m.getAge(),
+                        m.getAdresse()
+                });
+            else
+                userTableModel.addRow(new Object[]{
+                        m.getUid(),
+                        m.getLastName(),
+                        m.getFirstName(),
+                        m.getPassword(),
+                        m.getAge(),
+                        m.getAdresse(),
+                        m.getFinPenalite()
+                });
         }
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -260,8 +271,8 @@ public class BiblioView extends JFrame {
             if(!em.isReturned()) {
                 empruntTableModel.addRow(new Object[]{
                         em.getIdE(),
-                        em.getEmprunteur().getUid(),
-                        em.getLivreEmprunte().getidBook(),
+                        em.getLivreEmprunte().getTitre(),
+                        em.getEmprunteur().getFullName(),
                         em.getDateEmprunt(),
                         em.getDateRetourTheo()
                 });
@@ -271,8 +282,8 @@ public class BiblioView extends JFrame {
             returnTableModel.addRow(new Object[]{
                     re.getIdRetour(),
                     re.getEmpruntretournee().getIdE(),
-                    re.getLivreretourne().getidBook(),
-                    re.getMembreemprunteur().getUid(),
+                    re.getLivreretourne().getTitre(),
+                    re.getMembreemprunteur().getFullName(),
                     re.getDateRetour()
             });
         }
@@ -461,4 +472,3 @@ public class BiblioView extends JFrame {
         return mostBorrowedBooksModel;
     }
 }
-

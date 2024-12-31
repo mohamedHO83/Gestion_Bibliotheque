@@ -1,4 +1,4 @@
-1,ibrahmi,ismail,123,23,Temara
-3,Mastour,Monsef,123,22,Bouznika
-4,ElOuazzani,Mohammed,123,22,Sale
-5,Boubekri,Mohammed Amin,123,22,Rachidia
+1,Ibrahmi,Ismail,123,23,Temara,false,null
+3,Mastour,Monsef,123,22,Bouznika,true,2025-01-02
+4,ElOuazzani,Mohammed,123,22,Sale,false,null
+5,Boubekri,Mohammed Amin,123,22,Rachidia,false,null

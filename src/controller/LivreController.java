@@ -33,6 +33,14 @@ public class LivreController {
         }
         return null;
     }
+    public static Livre findBook(String title){
+        for(Livre l:livreslist){
+            if(l.getTitre().equals(title)){
+                return l;
+            }
+        }
+        return null;
+    }
 
     /**
      * Reads the list of books from a CSV file and populates {@link #livreslist}.
@@ -71,7 +79,7 @@ public class LivreController {
      *
      * @throws RuntimeException if there is an I/O error while writing to the file.
      */
-    public static void WriteLivreFile() {
+    public static void writeLivreFile() {
         try{
             BufferedWriter oos=new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"\\src\\Livres.csv"));
             for(Livre l:livreslist){

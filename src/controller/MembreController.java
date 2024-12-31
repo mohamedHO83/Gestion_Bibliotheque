@@ -34,6 +34,15 @@ public class MembreController {
         return null;
     }
 
+    public static Membre findMember(String fullName){
+        for(Membre m:membersList){
+            if(m.getFullName().equals(fullName)){
+                return m;
+            }
+        }
+        return null;
+    }
+
     /**
      * Reads the list of members from a CSV file and populates {@link #membersList}.
      * Each line in the file represents a member's details.
