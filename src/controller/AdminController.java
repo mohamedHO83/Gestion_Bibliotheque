@@ -20,28 +20,33 @@ public class AdminController extends JFrame   {
      * @param x The BiblioView instance for updating the UI.
      */
     public static void ajouterLivre(BiblioView x){
-        Livre nouveauLivre=new Livre();
-        JTextField titre=new JTextField(10);
-        JTextField autheur=new JTextField(10);
-        JTextField annee=new JTextField(10);
-        JTextField genre=new JTextField(10);
+        Livre nouveauLivre = new Livre();
+        JTextField titre = new JTextField(10);
+        JTextField autheur = new JTextField(10);
+        JTextField annee = new JTextField(10);
+        JTextField genre = new JTextField(10);
         JTextField nbCopies = new JTextField(10);
-        JButton submit=new JButton("Submit");
-        JDialog dialog=new JDialog(x);
-        dialog.setLayout(new GridLayout());
-        dialog.setSize(1000,800);
+        JButton submit = new JButton("Submit");
+
+        JDialog dialog = new JDialog(x);
+        dialog.setLayout(new BorderLayout());
+        dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
-        dialog.add(new JLabel("Titre: "));
-        dialog.add(titre);
-        dialog.add(new JLabel("Autheur: "));
-        dialog.add(autheur);
-        dialog.add(new JLabel("Année de publication: "));
-        dialog.add(annee);
-        dialog.add(new JLabel("Genre: "));
-        dialog.add(genre);
-        dialog.add(new JLabel("Nombre de copies"));
-        dialog.add(nbCopies);
-        dialog.add(submit);
+
+        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        inputPanel.add(new JLabel("Titre: "));
+        inputPanel.add(titre);
+        inputPanel.add(new JLabel("Autheur: "));
+        inputPanel.add(autheur);
+        inputPanel.add(new JLabel("Année de publication: "));
+        inputPanel.add(annee);
+        inputPanel.add(new JLabel("Genre: "));
+        inputPanel.add(genre);
+        inputPanel.add(new JLabel("Nombre de copies: "));
+        inputPanel.add(nbCopies);
+
+        dialog.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(submit, BorderLayout.SOUTH);
         dialog.setVisible(true);
         submit.addActionListener(event->{
             nouveauLivre.setTitre(titre.getText());
@@ -71,32 +76,33 @@ public class AdminController extends JFrame   {
      */
     public static void modifierLivre(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a book");return;}
-        Livre l=LivreController.livreslist.get(index);
-        JTextField ISBN = new JTextField(Integer.toString(l.getidBook()), 10);
-        ISBN.setEditable(false);
+        Livre l = LivreController.livreslist.get(index);
         JTextField titre = new JTextField(l.getTitre(), 10);
         JTextField autheur = new JTextField(l.getAuteur(), 10);
         JTextField annee = new JTextField(Integer.toString(l.getAnneepub()), 10);
         JTextField genre = new JTextField(l.getGenre(), 10);
         JTextField nbCopies = new JTextField(Integer.toString(l.getNbCopies()), 10);
         JButton submit = new JButton("Submit");
+
         JDialog dialog = new JDialog(x);
-        dialog.setLayout(new GridLayout());
-        dialog.setSize(1000, 800);
+        dialog.setLayout(new BorderLayout());
+        dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
-        dialog.add(new JLabel("Book id: "));
-        dialog.add(ISBN);
-        dialog.add(new JLabel("Titre: "));
-        dialog.add(titre);
-        dialog.add(new JLabel("Autheur: "));
-        dialog.add(autheur);
-        dialog.add(new JLabel("Année de publication: "));
-        dialog.add(annee);
-        dialog.add(new JLabel("Genre: "));
-        dialog.add(genre);
-        dialog.add(new JLabel("Nombre de copies"));
-        dialog.add(nbCopies);
-        dialog.add(submit);
+
+        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        inputPanel.add(new JLabel("Titre: "));
+        inputPanel.add(titre);
+        inputPanel.add(new JLabel("Autheur: "));
+        inputPanel.add(autheur);
+        inputPanel.add(new JLabel("Année de publication: "));
+        inputPanel.add(annee);
+        inputPanel.add(new JLabel("Genre: "));
+        inputPanel.add(genre);
+        inputPanel.add(new JLabel("Nombre de copies: "));
+        inputPanel.add(nbCopies);
+
+        dialog.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(submit, BorderLayout.SOUTH);
         dialog.setVisible(true);
         submit.addActionListener(e -> {
             l.setTitre(titre.getText());
@@ -137,34 +143,39 @@ public class AdminController extends JFrame   {
      * @param x The BiblioView instance for updating the UI.
      */
     public static void ajouterMembre(BiblioView x){
-        Membre nouveauMembre=new Membre();
-        JTextField lastName=new JTextField(10);
-        JTextField firstName=new JTextField(10);
-        JTextField password=new JTextField(10);
-        JTextField age=new JTextField(10);
-        JTextField adress=new JTextField(10);
-        JButton submit=new JButton("Submit");
-        JDialog dialog=new JDialog(x);
-        dialog.setLayout(new GridLayout());
-        dialog.setSize(1000,800);
+        Membre nouveauMembre = new Membre();
+        JTextField lastName = new JTextField(10);
+        JTextField firstName = new JTextField(10);
+        JTextField password = new JTextField(10);
+        JTextField age = new JTextField(10);
+        JTextField address = new JTextField(10);
+        JButton submit = new JButton("Submit");
+
+        JDialog dialog = new JDialog(x);
+        dialog.setLayout(new BorderLayout());
+        dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
-        dialog.add(new JLabel("Last Name: "));
-        dialog.add(lastName);
-        dialog.add(new JLabel("First Name: "));
-        dialog.add(firstName);
-        dialog.add(new JLabel("Password: "));
-        dialog.add(password);
-        dialog.add(new JLabel("Age: "));
-        dialog.add(age);
-        dialog.add(new JLabel("Adress: "));
-        dialog.add(adress);
-        dialog.add(submit);
+
+        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        inputPanel.add(new JLabel("Last Name: "));
+        inputPanel.add(lastName);
+        inputPanel.add(new JLabel("First Name: "));
+        inputPanel.add(firstName);
+        inputPanel.add(new JLabel("Password: "));
+        inputPanel.add(password);
+        inputPanel.add(new JLabel("Age: "));
+        inputPanel.add(age);
+        inputPanel.add(new JLabel("Address: "));
+        inputPanel.add(address);
+
+        dialog.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(submit, BorderLayout.SOUTH);
         dialog.setVisible(true);
         submit.addActionListener(e-> {
             nouveauMembre.setLastName(lastName.getText());
             nouveauMembre.setFirstName(firstName.getText());
             nouveauMembre.setPassword(password.getText());
-            nouveauMembre.setAdresse(adress.getText());
+            nouveauMembre.setAdresse(address.getText());
             nouveauMembre.setAge(Integer.parseInt(age.getText()));
             x.getUserTableModel().addRow(new Object[]{
                     nouveauMembre.getUid(),
@@ -187,39 +198,41 @@ public class AdminController extends JFrame   {
      */
     public static void modifierMembre(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a member");return;}
-        Membre m=MembreController.membersList.get(index);
-        JTextField UID = new JTextField(Integer.toString(m.getUid()), 10);
-        UID.setEditable(false);
+        Membre m = MembreController.membersList.get(index);
         JTextField lastName = new JTextField(m.getLastName(), 10);
         JTextField firstName = new JTextField(m.getFirstName(), 10);
         JTextField password = new JTextField(m.getPassword(), 10);
         JTextField age = new JTextField(Integer.toString(m.getAge()), 10);
-        JTextField adresse = new JTextField(m.getAdresse(), 10);
+        JTextField address = new JTextField(m.getAdresse(), 10);
         JButton submit = new JButton("Submit");
+
         JDialog dialog = new JDialog(x);
-        dialog.setLayout(new GridLayout());
-        dialog.setSize(1000, 800);
+        dialog.setLayout(new BorderLayout());
+        dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
-        dialog.add(new JLabel("Member Id: "));
-        dialog.add(UID);
-        dialog.add(new JLabel("Last Name: "));
-        dialog.add(lastName);
-        dialog.add(new JLabel("First Name: "));
-        dialog.add(firstName);
-        dialog.add(new JLabel("Password: "));
-        dialog.add(password);
-        dialog.add(new JLabel("Age: "));
-        dialog.add(age);
-        dialog.add(new JLabel("Adresse"));
-        dialog.add(adresse);
-        dialog.add(submit);
+
+        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        inputPanel.add(new JLabel("Last Name: "));
+        inputPanel.add(lastName);
+        inputPanel.add(new JLabel("First Name: "));
+        inputPanel.add(firstName);
+        inputPanel.add(new JLabel("Password: "));
+        inputPanel.add(password);
+        inputPanel.add(new JLabel("Age: "));
+        inputPanel.add(age);
+        inputPanel.add(new JLabel("Address: "));
+        inputPanel.add(address);
+
+        dialog.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(submit, BorderLayout.SOUTH);
+
         dialog.setVisible(true);
         submit.addActionListener(e -> {
             m.setLastName(lastName.getText());
             m.setFirstName(firstName.getText());
             m.setAge(Integer.parseInt(age.getText()));
             m.setPassword(password.getText());
-            m.setAdresse(adresse.getText());
+            m.setAdresse(address.getText());
             x.getUserTableModel().setValueAt(m.getUid(), index, 0);
             x.getUserTableModel().setValueAt(m.getLastName(), index, 1);
             x.getUserTableModel().setValueAt(m.getFirstName(), index, 2);
@@ -247,89 +260,125 @@ public class AdminController extends JFrame   {
     }
     public static void ajouterEmprunt(BiblioView x){
         Emprunt nouvelleEmprunt=new Emprunt();
-        if(LivreController.findBook(Integer.parseInt(x.getEmpruntAddBookNomField().getText())).getNbCopies()==0){
-            JOptionPane.showMessageDialog(x,"No copies available for this book.");
-        }else {
-            nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(x.getEmpruntAddBookNomField().getText())));
-            nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(x.getEmpruntAddUserNomField().getText())));
-            nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
-            nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
-            EmpruntController.empruntList.add(nouvelleEmprunt);
-            x.getEmpruntTableModel().addRow(new Object[]{
-                    nouvelleEmprunt.getIdE(),
-                    nouvelleEmprunt.getLivreEmprunte().getidBook(),
-                    nouvelleEmprunt.getEmprunteur().getUid(),
-                    nouvelleEmprunt.getDateEmprunt(),
-                    nouvelleEmprunt.getDateRetourTheo()
-            });
-            EmpruntController.writeEmpruntFile();
+        String bookIdText = x.getEmpruntAddBookNomField().getText();
+        String userIdText = x.getEmpruntAddUserNomField().getText();
+        Livre livre = LivreController.findBook(Integer.parseInt(bookIdText));
+        Membre membre = MembreController.findMember(Integer.parseInt(userIdText));
+
+        if (livre == null) {
+            JOptionPane.showMessageDialog(x, "The specified book does not exist.");
+            return;
         }
+        if (membre == null) {
+            JOptionPane.showMessageDialog(x, "The specified user does not exist.");
+            return;
+        }
+
+        if (livre.getNbCopies() == 0) {
+            JOptionPane.showMessageDialog(x, "No copies available for this book.");
+            return;
+        }
+        livre.setNbCopies(livre.getNbCopies() - 1);
+        //ismail
+        nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(x.getEmpruntAddBookNomField().getText())));
+        nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(x.getEmpruntAddUserNomField().getText())));
+        nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
+        nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
+        EmpruntController.empruntList.add(nouvelleEmprunt);
+
+        // update the row
+        for (int i = 0; i < x.getBookTableModel().getRowCount(); i++) {
+            if ((int) x.getBookTableModel().getValueAt(i, 0) == livre.getidBook()) {
+                x.getBookTableModel().setValueAt(livre.getNbCopies(), i, 5);
+                break;
+            }
+        }
+
+        x.getEmpruntTableModel().addRow(new Object[]{
+        nouvelleEmprunt.getIdE(),
+        nouvelleEmprunt.getLivreEmprunte().getidBook(),
+        nouvelleEmprunt.getEmprunteur().getUid(),
+        nouvelleEmprunt.getDateEmprunt(),
+        nouvelleEmprunt.getDateRetourTheo()
+        });
+        EmpruntController.writeEmpruntFile();
+
+        x.updateStatistics();
     }
-    public static void borrowBook(BiblioView x, int index){
-        Emprunt nouvelleEmprunt=new Emprunt();
-        int livreID=LivreController.livreslist.get(index).getidBook();
-        JTextField bookId=new JTextField(Integer.toString(livreID),10);
-        JTextField memberId=new JTextField(10);
-        JButton submit=new JButton("Submit");
-        JDialog dialog=new JDialog(x);
-        dialog.setLayout(new GridLayout());
-        dialog.setSize(1000,800);
+    public static void borrowBook(BiblioView x, int index) {
+        Emprunt nouvelleEmprunt = new Emprunt();
+        Livre livre = LivreController.livreslist.get(index);
+
+        JTextField memberId = new JTextField(10);
+        JButton submit = new JButton("Submit");
+
+        JDialog dialog = new JDialog(x);
+        dialog.setLayout(new BorderLayout());
+        dialog.setSize(400, 200);
         dialog.setLocationRelativeTo(null);
-        dialog.add(new JLabel("Book Id: "));
-        dialog.add(bookId);
-        dialog.add(new JLabel("Member Id: "));
-        dialog.add(memberId);
-        dialog.add(submit);
-        dialog.setVisible(true);
-        submit.addActionListener(event->{
-            if(LivreController.findBook(Integer.parseInt(bookId.getText())).getNbCopies()==0){
-                JOptionPane.showMessageDialog(dialog,"No copies available for this book.");
-            }else {
-                nouvelleEmprunt.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
+
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        inputPanel.add(new JLabel("Book Title: "));
+        inputPanel.add(new JLabel(livre.getTitre()));
+        inputPanel.add(new JLabel("Member ID: "));
+        inputPanel.add(memberId);
+
+        dialog.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(submit, BorderLayout.SOUTH);
+
+        submit.addActionListener(event -> {
+            if (livre.getNbCopies() == 0) {
+                JOptionPane.showMessageDialog(dialog, "No copies available for this book.");
+            } else {
+                nouvelleEmprunt.setLivreEmprunte(livre);
                 nouvelleEmprunt.setEmprunteur(MembreController.findMember(Integer.parseInt(memberId.getText())));
                 nouvelleEmprunt.setDateEmprunt(Date.valueOf(LocalDate.now()));
                 nouvelleEmprunt.setDateRetourTheo(Date.valueOf(LocalDate.now().plusDays(15)));
                 EmpruntController.empruntList.add(nouvelleEmprunt);
-                LivreController.livreslist.get(index).setNbCopies(LivreController.livreslist.get(index).getNbCopies()-1);
-                x.getBookTableModel().setValueAt(LivreController.livreslist.get(index).getNbCopies(),index,5);
+                livre.setNbCopies(livre.getNbCopies() - 1);
+                //ismail
+                x.getBookTableModel().setValueAt(livre.getNbCopies(), index, 5);
                 x.getEmpruntTableModel().addRow(new Object[]{
                         nouvelleEmprunt.getIdE(),
-                        nouvelleEmprunt.getLivreEmprunte().getidBook(),
+                        livre.getidBook(),
                         nouvelleEmprunt.getEmprunteur().getUid(),
                         nouvelleEmprunt.getDateEmprunt(),
                         nouvelleEmprunt.getDateRetourTheo()
                 });
                 EmpruntController.writeEmpruntFile();
+                dialog.dispose();
             }
-            dialog.dispose();
+        x.updateStatistics();
         });
+
+        dialog.setVisible(true);
     }
     public static void modifierEmprunt(BiblioView x,int index){
         if(index<0){JOptionPane.showMessageDialog(x,"Please select a loan");return;}
-        Emprunt em=EmpruntController.empruntList.get(index);
-        JTextField empruntID = new JTextField(Integer.toString(em.getIdE()), 10);
-        empruntID.setEditable(false);
+        Emprunt em = EmpruntController.empruntList.get(index);
         JTextField bookId = new JTextField(Integer.toString(em.getLivreEmprunte().getidBook()), 10);
         JTextField memberId = new JTextField(Integer.toString(em.getEmprunteur().getUid()), 10);
         JTextField dateEmprunt = new JTextField(em.getDateEmprunt().toString(), 10);
         JTextField dateRetourTheo = new JTextField(em.getDateRetourTheo().toString(), 10);
         JButton submit = new JButton("Submit");
-        JDialog dialog = new JDialog(x);
-        dialog.setLayout(new GridLayout());
-        dialog.setSize(1000, 800);
-        dialog.setLocationRelativeTo(null);
-        dialog.add(new JLabel("Loan id: "));
-        dialog.add(empruntID);
-        dialog.add(new JLabel("Book id: "));
-        dialog.add(bookId);
-        dialog.add(new JLabel("Member id: "));
-        dialog.add(memberId);
-        dialog.add(new JLabel("Loan Date: "));
-        dialog.add(dateEmprunt);
-        dialog.add(new JLabel("Supposed Return Date: "));
-        dialog.add(dateRetourTheo);
 
-        dialog.add(submit);
+        JDialog dialog = new JDialog(x);
+        dialog.setLayout(new BorderLayout());
+        dialog.setSize(400, 300);
+        dialog.setLocationRelativeTo(null);
+
+        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        inputPanel.add(new JLabel("Book ID: "));
+        inputPanel.add(bookId);
+        inputPanel.add(new JLabel("Member ID: "));
+        inputPanel.add(memberId);
+        inputPanel.add(new JLabel("Loan Date: "));
+        inputPanel.add(dateEmprunt);
+        inputPanel.add(new JLabel("Return Date: "));
+        inputPanel.add(dateRetourTheo);
+
+        dialog.add(inputPanel, BorderLayout.CENTER);
+        dialog.add(submit, BorderLayout.SOUTH);
         dialog.setVisible(true);
         submit.addActionListener(e -> {
             em.setLivreEmprunte(LivreController.findBook(Integer.parseInt(bookId.getText())));
