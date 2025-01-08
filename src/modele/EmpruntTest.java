@@ -1,4 +1,4 @@
-package module;
+package modele;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Date;

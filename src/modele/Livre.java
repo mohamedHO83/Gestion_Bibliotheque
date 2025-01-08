@@ -1,8 +1,10 @@
-package module;
+package modele;
 
 import controller.LivreController;
 
-import java.io.Serializable;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a book in the library system.
@@ -41,7 +43,38 @@ public class Livre  {
     /**
      * Default constructor for the Livre class.
      */
-    public Livre() { this.idBook = LivreController.LIVRE_ID_CPT++;}
+    /**
+     * List of books in the library system.
+     */
+    public static List<Livre> livreslist=new ArrayList<>();
+    /**
+     * Counter used to generate IDs for books.
+     */
+    public static int livreIdCpt =0;
+
+    /**
+     * Searches for a book by its ID in the list of books.
+     *
+     * @param id The ID of the book to search for.
+     * @return The book with the specified ID, or null if the book doesn't exist.
+     */
+    public static Livre findBook(int id){
+        for(Livre l:livreslist){
+            if(l.getidBook()==id){
+                return l;
+            }
+        }
+        return null;
+    }
+    public static Livre findBook(String title){
+        for(Livre l:livreslist){
+            if(l.getTitre().equals(title)){
+                return l;
+            }
+        }
+        return null;
+    }
+    public Livre() { this.idBook = livreIdCpt++;}
     /**
      * Constructor for the Livre class.
      *
@@ -52,7 +85,7 @@ public class Livre  {
      * @param nbcopies The number of copies available in the library.
      */
     public Livre(String titre, String auteur, int anneepub, String genre, int nbcopies){
-        this.idBook =LivreController.LIVRE_ID_CPT++;
+        this.idBook =livreIdCpt++;
         this.titre=titre;
         this.auteur=auteur;
         this.anneepub=anneepub;
@@ -157,12 +190,56 @@ public class Livre  {
         this.titre = titre;
     }
 
+
     /**
-     * Checks if this book is equal to another book based on the book ID.
+     * Reads the list of books from a CSV file and populates {@link #livreslist}.
+     * Each line in the file represents a book's details.
      *
-     * @param o The object to compare with.
-     * @return True if the objects are equal, false otherwise.
+     * @throws RuntimeException if there is an I/O error while reading the file.
      */
+    public static void readLivreFile() {
+        try{
+            BufferedReader ois=new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\src\\Livres.csv"));
+            String line;
+            while((line=ois.readLine())!=null) {
+                if(line.isEmpty()){return;}
+                Livre l=new Livre();
+                String[] livrefields=line.split(",");
+                if(livreIdCpt <Integer.parseInt(livrefields[0])){
+                    livreIdCpt =Integer.parseInt(livrefields[0])+1;
+                }
+                l.setIdBook(Integer.parseInt(livrefields[0]));
+                l.setTitre(livrefields[1]);
+                l.setAuteur(livrefields[2]);
+                l.setAnneepub(Integer.parseInt(livrefields[3]));
+                l.setGenre(livrefields[4]);
+                l.setNbCopies(Integer.parseInt(livrefields[5]));
+                livreslist.add(l);
+            }
+            ois.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Writes the list of books to a CSV file.
+     * Each line in the file represents a book's details.
+     *
+     * @throws RuntimeException if there is an I/O error while writing to the file.
+     */
+    public static void writeLivreFile() {
+        try{
+            BufferedWriter oos=new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"\\src\\Livres.csv"));
+            for(Livre l:livreslist){
+                oos.write(l.toString());
+                oos.newLine();
+            }
+            oos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
