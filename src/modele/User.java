@@ -1,4 +1,4 @@
-package module;
+package modele;
 
 import controller.MembreController;
 
@@ -39,7 +39,7 @@ public class User{
     /**
      * Default constructor for the User class.
      */
-    public User() {uid= MembreController.MEMBER_ID_CPT++;}
+    public User() {uid= Membre.memberIdCpt++;}
     /**
      * Parameterized constructor for the User class.
      *
@@ -50,7 +50,7 @@ public class User{
      * @param adresse   The address of the user.
      */
     public User(String lastName, String firstName, String password, int age, String adresse) {
-        this.uid=MembreController.MEMBER_ID_CPT++;
+        this.uid=Membre.memberIdCpt++;
         this.lastName=lastName;
         this.firstName=firstName;
         this.password=password;
